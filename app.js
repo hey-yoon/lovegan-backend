@@ -107,50 +107,20 @@ app.listen(port, () => {
   console.log("express 서버 실행!")
 })
 
-// import connect from './connect/connect.js';
-// import express from 'express';
-// import dotenv from 'dotenv';
-// import cors from 'cors';
-// import bodyParser from 'body-parser';
-// import rootRouter from './routes/rootRouter.js';
-// import passport from 'passport';
-// import { initializePassport } from './auth/auth.js';
-// import multer from 'multer';
-// import fs from 'fs';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// connect(); // mongoDB 연결
-// dotenv.config(); // 환경변수 설정
-
-// const port = 8000;
-// const app = express();
-
-// app.use(bodyParser.json());
-// app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-// app.use(express.urlencoded({ extended: false }));
-// app.use(passport.initialize());
-// initializePassport();
-
-// // ... (이미지 등록 및 다른 로직)
-
-// // 정적 파일 제공 설정 (React 앱)
-// app.use(express.static(path.join(__dirname, 'client/build')));
-
-// // API 엔드포인트 설정 (필요한 경우)
-// app.get('/api/your-endpoint', (req, res) => {
-//     res.json({ message: 'Hello from API!' });
-// });
-
-// // 모든 요청에 대해 React 앱 제공
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-// });
-
-// // 서버 시작
-// app.listen(port, () => {
-//     console.log(`Server is running on port ${port}`);
-// });
+// session 주석
+// app.use(session(
+//   {
+//     secret : "SECRET_KEY",
+//     resave : false,
+//     saveUninitialized : true
+//   }
+// ))
+// app.use(passport.session())
+// // passport로 인증된 유저를 session에 등록해주는 메서드
+// passport.serializeUser((user, done) => {
+//   done(null, user)
+// })
+// // passport로 인증된 유저를 session에서 제거해주는 메서드
+// passport.deserializeUser((user, done) => {
+//   done(null, user)
+// })
