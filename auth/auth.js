@@ -194,11 +194,23 @@ const googleVerify = async (accessToken, refreshToken, profile, done) => {
 }
 
 
+
+const kakaoConfig = {
+  clientID : process.env.KAKAO_REST_API,
+  callbackURL : "/auth/kakao/callback",
+}
+
+const kakaoVerify =  async (accessToken, refreshToken, profile, done) => { 
+  console.log('kakao profile', profile)
+}
+
+
 const initializePassport = () => {
   passport.use('local', new LocalStrategy(passportConfig, passportVerify));
   passport.use('jwt', new JWTStrategy(JWTConfig, JWTVerify));
   passport.use('naver', new NaverStrategy(naverConfig, naverVerify));
   passport.use('google', new GoogleStrategy(googleConfig, googleVerify));
+  passport.use('kakao', new KakaoStrategy(kakaoConfig, kakaoVerify));
 }
 
 export { initializePassport }
