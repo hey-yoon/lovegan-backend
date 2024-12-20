@@ -23,7 +23,7 @@ const connect = async () => {
             console.log("Connected To MongoDB")
         })
         .catch((err)=>{
-            console.err("Connected failed to MongoDB")
+            console.error("Connected failed to MongoDB")
             console.log(err)
         })
        

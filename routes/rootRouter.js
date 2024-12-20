@@ -2,7 +2,7 @@ import express from 'express';
 import { index } from '../controller/index.js';
 import userRouter from './user/userRouter.js';
 import authRouter from './auth/authRouter.js';
-import todoRouter from './todo/todoRouter.js';
+// import todoRouter from './todo/todoRouter.js';
 
 const rootRouter = express.Router();
 
@@ -13,6 +13,6 @@ rootRouter.get("/", index);
 // rootRouter.put("/", index);
 rootRouter.use("/user", userRouter);
 rootRouter.use("/auth", authRouter)
-rootRouter.use("/todo", todoRouter)
+// rootRouter.use("/todo", todoRouter)
 
 export default rootRouter;
