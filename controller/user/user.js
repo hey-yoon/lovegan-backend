@@ -3,13 +3,13 @@ import path from 'path'
 import bcrypt, { hash } from 'bcrypt';
 
 const loginUser = async (req, res) => {
-    //console.log(req.body)
+    // console.log(req.body)
     const findUser = await User.findOne({email : req.body.email}).lean()
 
     if(!findUser){
         return res.status(401).json({
             loginSuccess : false,
-            message : "The email does not exist"
+            message : "존재하지 않는 아이디 또는 비밀번호입니다."
         })
     }else{
         // 비밀번호 검증
@@ -17,7 +17,7 @@ const loginUser = async (req, res) => {
         if(!passwordMatch){
             return res.status(401).json({
                 loginSuccess : false,
-                message : "The password does not match"
+                message : "존재하지 않는 아이디 또는 비밀번호입니다."
             })
         }
         // 민감한 정보를 제거
@@ -26,47 +26,56 @@ const loginUser = async (req, res) => {
         return res.status(200).json({
             user,
             loginSuccess : true,
-            message : "Login completed"
+            message : "로그인이 완료되었습니다"
         })
     }
 }
 const registerUser = async (req, res) => {
-    //console.log(req.body)
-    const { name, email, password, phone } = req.body;
+    // console.log(req.body)
+    const { nickname, email, password, phone } = req.body;
     const findUser = await User.findOne({email : email}).lean();
 
     if(findUser){
-       
         return res.status(409).json({
             registerSuccess : false,
-            message : "This email already exists"
+            message : "이미 존재하는 이메일입니다."
         })
     }else{
-        
-        // 비밀번호 해시화
-        const saltRounds = 10; // 해시 강도를 설정(높을 수록 안전);
-        const plainPassword = req.body.password
-        console.log("현재 비밀번호", plainPassword);
-
-        bcrypt.hash(plainPassword, saltRounds, async (err, hashPassword) => {
-            if(err){
-                console.log(err)
-            }else{
-                console.log("해쉬 비밀번호", hashPassword);
-                let registerUser = {
-                    email : email,
-                    password : hashPassword,
-                    name : name,
-                    phone : phone
-                }
-
-                await User.create(registerUser);
-                return res.status(201).json({
-                    message : "Congratulations! Your registration is complete",
-                    registerSuccess : true
-                })
-            }
+        let register = {
+            email : email,
+            password : password,
+            phone : phone,
+            nickname : nickname
+        }
+        await User.create(register);
+        return res.status(201).json({
+            registerSuccess : true,
+            message : "축하합니다. 회원가입이 완료되었습니다."
         })
+        // 비밀번호 해시화
+        // const saltRounds = 10; // 해시 강도를 설정(높을 수록 안전);
+        // const plainPassword = req.body.password
+        // console.log("현재 비밀번호", plainPassword);
+
+        // bcrypt.hash(plainPassword, saltRounds, async (err, hashPassword) => {
+        //     if(err){
+        //         console.log(err)
+        //     }else{
+        //         console.log("해쉬 비밀번호", hashPassword);
+        //         let registerUser = {
+        //             email : email,
+        //             password : hashPassword,
+        //             name : name,
+        //             phone : phone
+        //         }
+
+        //         await User.create(registerUser);
+        //         return res.status(201).json({
+        //             message : "Congratulations! Your registration is complete",
+        //             registerSuccess : true
+        //         })
+        //     }
+        // })
     }
 }
 const updateUser = async (req, res) => {
