@@ -1,3 +1,4 @@
+import Faq from "../../models/faq_schema.js";
 import Notice from "../../models/notice_schema.js";
 
 const notice = async (req, res) => {
@@ -11,6 +12,15 @@ const notice = async (req, res) => {
     }
 };
 
-const faq = (req,res) => {};
+const faq = async (req,res) => {
+    try {
+        const faqList = await Faq.find();
+
+        res.json(faqList);
+    }
+    catch(error){
+        res.status(500).json({error: "데이터베이스 오류"});
+    }
+};
 
 export {notice, faq};
