@@ -3,6 +3,7 @@ import Notice from "../../models/notice_schema.js";
 import Quest from "../../models/quest_schema.js";
 import { getCurrentTime } from "../../utils/utils.js";
 
+// notice데이터 조회
 const notice = async (req, res) => {
     try {
         // 추가 후 데이터 조회
@@ -14,6 +15,7 @@ const notice = async (req, res) => {
     }
 };
 
+// faq데이터 조회
 const faq = async (req,res) => {
     try {
         const faqList = await Faq.find();
@@ -25,6 +27,7 @@ const faq = async (req,res) => {
     }
 };
 
+// quest데이터 조회
 const quest = async (req, res) => {
     try{
         const questList = await Quest.find();
@@ -36,6 +39,7 @@ const quest = async (req, res) => {
     }
 }
 
+// form 데이터 생성하기
 const formQuest = async (req, res) => {
     try{
         const {title,contents} = req.body;
@@ -63,12 +67,31 @@ const formQuest = async (req, res) => {
         res.status(500).json({error: "데이터베이스 오류"})
     }
 }
-const updateQuest = (req, res) => {}
-const deleteQuest = (req, res) => {}
 
-// customerRouter.get("/quest",quest);
-// customerRouter.post("/form",formQuest);
-// customerRouter.put("/update",updateQuest);
-// customerRouter.delete("/delete",deleteQuest);
+// quest 수정
+const updateQuest = (req, res) => {
+    // try{
+    //     const {title,contents,no} = req.body;
+    //     const update= await Quest.updateOne({ no: Number(no) },
+    //     { $set: { title, contents } });
+    //     res.status(200).json({message:"수정완료"});
+        
+    // }
+    // catch(error){
+    //     res.status(500).json({error: "데이터베이스 오류"})
+    // }
+}
+
+// 삭제 로직
+const deleteQuest = async(req, res) => {
+    try{
+        const {no} = req.body;
+        await Quest.deleteOne({no});
+        res.status(200).json({message:"삭제성공"});
+    }
+    catch(error){
+        res.status(500).json({error: "데이터베이스 오류"})
+    }
+}
 
 export {notice, faq, quest, formQuest, updateQuest, deleteQuest};
