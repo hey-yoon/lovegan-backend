@@ -25,22 +25,30 @@ const passportVerify = async (email, password, done) => {
     // 아이디 검증
     const user = await User.findOne({ email: email }).lean();
     if(!user){
-      return done(null, false, {message : "The user does not exist"})
+      return done(null, false, {message : "존재하지 않는 아이디 또는 비밀번호입니다."})
     }
+
+    // 아이디 검증된 회원의 비밀번호 검증
+    const passwordMatch = password === user.password;
+    if(!passwordMatch){
+      return done(null, false, {message : "존재하지 않는 아이디 또는 비밀번호입니다."})
+    }
+    // 비밀번호가 같아면 유저 데이터를 전송 
+    return done(null, user);
  
-    const plainPassword = password; 
-    const hashedPassword = user.password;
+    // const plainPassword = password; 
+    // const hashedPassword = user.password;
 
-    bcrypt.compare(plainPassword, hashedPassword, (err, result) => {
+    // bcrypt.compare(plainPassword, hashedPassword, (err, result) => {
 
-      if(err) { return done(err) }
-      if(result) {
-        // 로그인 성공
-        return done(null, user);
-      }else {
-        return done(null, false, { message : "The password is incorrect"})
-      }
-    })
+    //   if(err) { return done(err) }
+    //   if(result) {
+    //     // 로그인 성공
+    //     return done(null, user);
+    //   }else {
+    //     return done(null, false, { message : "The password is incorrect"})
+    //   }
+    // })
 
   } catch (error) {
     console.log(error);
@@ -58,7 +66,7 @@ const JWTVerify = async (jwtPayload, done) => {
   try {
     const user = await User.findOne({ email : jwtPayload.email }).lean();
     if(!user){
-      done(null, false, {message : "The authentication information is incorrect"})
+      done(null, false, {message : "올바르지 않은 인증정보입니다."})
     }
     return done(null, user)
     
