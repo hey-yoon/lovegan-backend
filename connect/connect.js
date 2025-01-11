@@ -5,8 +5,6 @@ dotenv.config();
 const connection_url = process.env.CONNECT_URL;
 console.log(connection_url)
 
-//const connection_url = `mongodb+srv://app:1234@app.fhkup.mongodb.net/`;
-
 const connect = async () => {
     // 배포환경이 아니라면,
     if( process.env.NODE_ENV !== "production"){
@@ -14,7 +12,7 @@ const connect = async () => {
         mongoose.set('debug', true);
     }
 
-    mongoose
+    await mongoose
         .connect(connection_url, {
             dbName : "project", // 컬러견을 관리하는 database의 이름 설정
         })
