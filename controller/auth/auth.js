@@ -42,7 +42,7 @@ const localStrategy = async (req, res, next) => {
         user,
         accessToken,
         loginSuccess : true,
-        message : "Login completed"
+        message : "로그인이 완료되었습니다."
       })
 
     })
@@ -58,7 +58,7 @@ const jwtStrategy = async (req, res, next) => {
         const {password, ...user} = jwtAuthenticatedUser;
         res.json({
             user,
-            message : "Automatic login completed",
+            message : "자동 로그인 완료",
             loginSuccess : true
         })
 
