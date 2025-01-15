@@ -1,3 +1,4 @@
+import Comment from "../../models/comment_schema.js";
 import Post from "../../models/post_schema.js"
 
 // 게시글 조회
@@ -7,7 +8,7 @@ const getPost = async (req, res) => {
     try {
         const posts = await Post.find()
         console.log(posts)
-        // .populate("author")
+        .populate("author")
         // // .exec();
 
         res.status(200).json(posts);
@@ -50,4 +51,49 @@ const getPostById = async (req, res) => {
     }
 };
 
-export {createPost, getPost, getPostById};
+// 댓글
+// 댓글 조회
+const getComment = async (req, res) => {
+    try {
+        const comments = Comment.find()
+        // .populate("author")
+        console.log(comments)
+
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ message : "댓글 조회 실패", error});
+    }
+};
+
+// 댓글 추가
+const addComment = async (req, res) => {
+    try {
+        const { id, content } = req.body;
+        const newComment = new Comment({ id, content });
+        const savedComment = await newComment.save();
+        res.status(200).json(savedComment);
+    } catch (error) {
+        res.status(500).json({ message : "댓글 저장 실패", error });
+    }
+};
+ 
+// 대댓글 추가
+const addReply = async (req, res) => {
+    try {
+        const { id, reply } = req.body;
+        const parentComment = await Comment.findById(id);
+
+        if(!parentComment) {
+            return res.status(200).json({ message : "댓글을 찾을 수 없습니다." })
+        }
+
+        parentComment.replies.push(reply);
+
+        const updatedComment = await parentComment.save();
+        res.status(201).json(updatedComment);
+    } catch (error) {
+        res.status(500).json({ message : "대댓글 저장 실패", error });
+    }
+};
+
+export {createPost, getPost, getPostById, getComment, addComment, addReply};
