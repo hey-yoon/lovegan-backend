@@ -108,4 +108,35 @@ const updatePicture = async (req, res) => {
     })
 }
 
-export {loginUser, registerUser, updateUser, deleteUser, updatePicture }
+const updatePassword = async (req, res) => { 
+    try {
+        // 사용자 찾기
+        const { email, currentPassword, newPassword } = req.body;
+        
+        const findUser = await User.findOne({ email: email });
+        
+        if (!findUser) {
+            return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+        }
+
+        // ✅ 현재 비밀번호 일치 여부 확인
+        if (findUser.password !== currentPassword) {
+            return res.status(401).json({ message: "현재 비밀번호가 일치하지 않습니다." });
+        }
+
+        // 비밀번호 업데이트 (updateOne 수정)
+        await User.updateOne(
+            { email: req.body.email },  // 검색 조건 수정
+            { $set: { password: req.body.newPassword } } // $set 사용
+        );
+
+        res.status(200).json({ message: "비밀번호 변경 성공" });
+    } catch (error) {
+        console.error("비밀번호 변경 중 오류:", error);
+        res.status(500).json({ message: "서버 오류" });
+    }
+}
+
+
+
+export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword }
