@@ -69,17 +69,18 @@ const formQuest = async (req, res) => {
 }
 
 // quest 수정
-const updateQuest = (req, res) => {
-    // try{
-    //     const {title,contents,no} = req.body;
-    //     const update= await Quest.updateOne({ no: Number(no) },
-    //     { $set: { title, contents } });
-    //     res.status(200).json({message:"수정완료"});
+const updateQuest = async(req, res) => {
+    try{
+        const {title,contents,no} = req.body;
+        console.log(req.body);
+        const update = await Quest.updateOne({ no: Number(no) },
+        { $set: { title, contents } });
+        res.status(200).json({message:"수정완료"});
         
-    // }
-    // catch(error){
-    //     res.status(500).json({error: "데이터베이스 오류"})
-    // }
+    }
+    catch(error){
+        res.status(500).json({error: "데이터베이스 오류"})
+    }
 }
 
 // 삭제 로직
