@@ -7,8 +7,9 @@ const commentSchema = new Schema({
         // type : Schema.Types.ObjectId,
         type : String,
         // ref : "Post", 
-        // Post 더미데이터와 연관
+        // Post 더미데이터와 연관 
         required : true,
+        unique : 1
     },
     author : {
         // type : Schema.Types.ObjectId,
