@@ -144,9 +144,10 @@ const updatePassword = async (req, res) => {
 const updateNickname = async (req, res) => { 
     try {
         // 사용자 찾기
-        const { email, newNickname } = req.body;
+        const { email, value } = req.body;
         
         const findUser = await User.findOne({ email: email });
+        console.log("updateNickname" + updateNickname);
         
         if (!findUser) {
             return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
@@ -154,7 +155,7 @@ const updateNickname = async (req, res) => {
 
         await User.updateOne(
             { email: email },  // 검색 조건 수정
-            { $set: { nickname: newNickname } } // $set 사용
+            { $set: { nickname: value } } // $set 사용
         );
 
         res.status(200).json({ message: "닉네임 변경 성공" });
@@ -167,7 +168,7 @@ const updateNickname = async (req, res) => {
 const updateIntro = async (req, res) => { 
     try {
         // 사용자 찾기
-        const { email, newIntro } = req.body;
+        const { email, value } = req.body;
         
         const findUser = await User.findOne({ email: email });
         
@@ -177,7 +178,7 @@ const updateIntro = async (req, res) => {
 
         await User.updateOne(
             { email: email },  // 검색 조건 수정
-            { $set: { nickname: newIntro } } // $set 사용
+            { $set: { intro: value } } // $set 사용
         );
 
         res.status(200).json({ message: "한 줄 소개 변경 성공" });
