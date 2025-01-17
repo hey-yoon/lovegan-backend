@@ -8,13 +8,13 @@ const getPost = async (req, res) => {
     try {
         const posts = await Post.find()
         console.log(posts)
-        .populate("author")
+        // .populate("author")
         // // .exec();
 
         res.status(200).json(posts);
     } catch(error) {
         res.status(500).json({ message : "게시글 조회 실패", error});
-    } 
+    }
 };
 
 // 게시글 작성
@@ -40,7 +40,7 @@ const getPostById = async (req, res) => {
 
     try {
         const post = await Post.findById(id)
-        .populate({author}, {})
+        .populate({author})
         .exec();
 
         if(!post) return res.status(404).json({ message : "게시글을 찾을 수 없습니다." });
