@@ -55,7 +55,7 @@ const getPostById = async (req, res) => {
 // 댓글 조회
 const getComment = async (req, res) => {
     try {
-        const comments = Comment.find()
+        const comments = await Comment.find()
         // .populate("author")
         console.log(comments)
 
