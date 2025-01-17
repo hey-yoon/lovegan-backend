@@ -141,6 +141,52 @@ const updatePassword = async (req, res) => {
     }
 }
 
+const updateNickname = async (req, res) => { 
+    try {
+        // 사용자 찾기
+        const { email, newNickname } = req.body;
+        
+        const findUser = await User.findOne({ email: email });
+        
+        if (!findUser) {
+            return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+        }
+
+        await User.updateOne(
+            { email: email },  // 검색 조건 수정
+            { $set: { nickname: newNickname } } // $set 사용
+        );
+
+        res.status(200).json({ message: "닉네임 변경 성공" });
+    } catch (error) {
+        console.error("닉네임 변경 중 오류:", error);
+        res.status(500).json({ message: "서버 오류" });
+    }
+}
+
+const updateIntro = async (req, res) => { 
+    try {
+        // 사용자 찾기
+        const { email, newIntro } = req.body;
+        
+        const findUser = await User.findOne({ email: email });
+        
+        if (!findUser) {
+            return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+        }
+
+        await User.updateOne(
+            { email: email },  // 검색 조건 수정
+            { $set: { nickname: newIntro } } // $set 사용
+        );
+
+        res.status(200).json({ message: "한 줄 소개 변경 성공" });
+    } catch (error) {
+        console.error("한 줄 소개 변경 중 오류:", error);
+        res.status(500).json({ message: "서버 오류" });
+    }
+}
+
 
 // 인증을 위해 발급받은 본인의 API Key와 API Secret을 사용
 const sms = coolsms.default;
@@ -248,4 +294,4 @@ const verifyCode = async (req, res) => {
     }
 };
 
-export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, sendVerificationCode, verifyCode }
+export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode }

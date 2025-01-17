@@ -59,7 +59,7 @@ const registerShipping = async (req, res) => {
 };
 
 const listShipping = async (req, res) => {
-    console.log(req.body);
+    console.log("listShipping: " + req.body);
     const { email } = req.body; // 쿼리 스트링에서 이메일을 받음
 
     if (!email) {

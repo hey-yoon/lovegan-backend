@@ -4,6 +4,6 @@ import { listShipping, registerShipping } from '../../controller/shipping/shippi
 const shippingRouter = express.Router();
 
 shippingRouter.post("/register", registerShipping);
-shippingRouter.get("/list", listShipping);
+shippingRouter.post("/list", listShipping);
 
 export default shippingRouter;
