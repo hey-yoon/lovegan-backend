@@ -4,7 +4,7 @@ import userRouter from './user/userRouter.js';
 import authRouter from './auth/authRouter.js';
 import customerRouter from './customer/customerRouter.js';
 import communityRouter from './community/communityRouter.js';
-// import todoRouter from './todo/todoRouter.js';
+import productRouter from './product/productRouter.js';
 
 const rootRouter = express.Router();
 
@@ -18,6 +18,6 @@ rootRouter.use("/auth", authRouter);
 // rootRouter.use("/todo", todoRouter)
 rootRouter.use("/customer",customerRouter);
 rootRouter.use("/community", communityRouter);
-
+rootRouter.use("/product", productRouter);
 
 export default rootRouter;
