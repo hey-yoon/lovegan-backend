@@ -42,7 +42,7 @@ const quest = async (req, res) => {
 // form 데이터 생성하기
 const formQuest = async (req, res) => {
     try{
-        const {title,contents} = req.body;
+        const {title,contents,writer} = req.body;
         
         // 가장 최신의 no 값을 찾기
         const latestQuest = await Quest.findOne().sort({ no: -1 }).exec(); // no를 기준으로 내림차순 정렬 후 첫 번째 문서 찾기
@@ -51,7 +51,7 @@ const formQuest = async (req, res) => {
         let newForm = {
             no: newNo,
             title: title,
-            writer: "홍길동",
+            writer: writer,
             date: getCurrentTime(),
             contents: contents,
         }
@@ -69,17 +69,18 @@ const formQuest = async (req, res) => {
 }
 
 // quest 수정
-const updateQuest = (req, res) => {
-    // try{
-    //     const {title,contents,no} = req.body;
-    //     const update= await Quest.updateOne({ no: Number(no) },
-    //     { $set: { title, contents } });
-    //     res.status(200).json({message:"수정완료"});
+const updateQuest = async(req, res) => {
+    try{
+        const {title,contents,no} = req.body;
+        console.log(req.body);
+        const update = await Quest.updateOne({ no: Number(no) },
+        { $set: { title, contents } });
+        res.status(200).json({message:"수정완료"});
         
-    // }
-    // catch(error){
-    //     res.status(500).json({error: "데이터베이스 오류"})
-    // }
+    }
+    catch(error){
+        res.status(500).json({error: "데이터베이스 오류"})
+    }
 }
 
 // 삭제 로직

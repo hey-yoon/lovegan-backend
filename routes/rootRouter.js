@@ -6,6 +6,7 @@ import customerRouter from './customer/customerRouter.js';
 import communityRouter from './community/communityRouter.js';
 import shippingRouter from './shipping/shippingRouter.js';
 // import todoRouter from './todo/todoRouter.js';
+import productRouter from './product/productRouter.js';
 
 const rootRouter = express.Router();
 
@@ -19,7 +20,11 @@ rootRouter.use("/auth", authRouter);
 // rootRouter.use("/todo", todoRouter)
 rootRouter.use("/customer",customerRouter);
 rootRouter.use("/community", communityRouter);
+<<<<<<< HEAD
 rootRouter.use("/shipping", shippingRouter);
 
+=======
+rootRouter.use("/product", productRouter);
+>>>>>>> 74d95b20963203e1c08826c06bd527672576e89d
 
 export default rootRouter;
