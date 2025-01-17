@@ -31,6 +31,7 @@ const commentSchema = new Schema({
     // ],
     // 작성 날짜
     createAt : { type : Date, default : getCurrentTime }, 
+    updateAt : { type : Date, default : getCurrentTime },
 },
 //     {
 //         timestamps: true, // createdAt, updatedAt 자동 생성

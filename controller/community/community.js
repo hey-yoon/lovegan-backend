@@ -55,7 +55,7 @@ const getPostById = async (req, res) => {
 // 댓글 조회
 const getComment = async (req, res) => {
     try {
-        const comments = await Comment.find()
+        const comments = await Comment.find().lean()
         // .populate("author")
         console.log(comments)
 
@@ -68,8 +68,8 @@ const getComment = async (req, res) => {
 // 댓글 추가
 const addComment = async (req, res) => {
     try {
-        const { id, content } = req.body;
-        const newComment = new Comment({ id, content });
+        const { content } = req.body;
+        const newComment = new Comment(content);
         const savedComment = await newComment.save();
         res.status(200).json(savedComment);
     } catch (error) {
