@@ -56,10 +56,11 @@ const getPostById = async (req, res) => {
 const getComment = async (req, res) => {
     try {
         const comments = await Comment.find().lean()
+        const commentCount = comments.length;
         // .populate("author")
         console.log(comments)
 
-        res.status(200).json(comments);
+        res.status(200).json({comments, commentCount});
     } catch (error) {
         res.status(500).json({ message : "댓글 조회 실패", error});
     }
@@ -68,10 +69,22 @@ const getComment = async (req, res) => {
 // 댓글 추가
 const addComment = async (req, res) => {
     try {
-        const { content } = req.body;
-        const newComment = new Comment(content);
-        const savedComment = await newComment.save();
-        res.status(200).json(savedComment);
+        const {content} = req.body;
+
+        // if (!author || !content) {
+        //     return res.status(400).json({ message: "작성자와 내용은 필수입니다." });
+        // }
+
+        const newComment = new Comment({
+            // author : author,  // 작성자 ID 또는 이름
+            content : content, // 댓글 내용
+            createdAt: new Date(), // 댓글 작성 시간
+        });
+
+        const saveComment = await newComment.save();
+
+        res.status(200).json(saveComment);
+
     } catch (error) {
         res.status(500).json({ message : "댓글 저장 실패", error });
     }
