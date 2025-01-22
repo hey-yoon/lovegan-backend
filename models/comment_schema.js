@@ -1,25 +1,41 @@
-import mongoose, { model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
+import { getCurrentTime } from "../utils/utils.js";
 import { ObjectId } from "mongodb";
 
 const commentSchema = new Schema({
     post : {
-        type : Schema.Types.ObjectId,
-        ref : "Post", // Post 더미데이터와 연관
-        require : true,
+        // type : Schema.Types.ObjectId,
+        type : String,
+        // ref : "Post", 
+        // Post 더미데이터와 연관 
+        required : true,
+        unique : 1
     },
     author : {
-        type : Schema.Types.ObjectId,
-        ref : "User", // User 더미데이터와 연관
-        require : true,
+        // type : Schema.Types.ObjectId,
+        type : String,
+        // ref : "User", 
+        // User 더미데이터와 연관
+        required : true,
     },
-    content : { type : String, require : true }, // 댓글 내용
-    replies : [
+    content : { type : String, required : true }, // 댓글 내용
+    replies : 
+    // [
         {
-            type : Schema.Types.ObjectId,
-            ref : "Comment", // 대댓글 영향
-        }
-    ],
-    createAt : { type : Date, default : Date.now }, // 작성 날짜
-})
+            // type: Schema.Types.ObjectId,
+            type : String,
+            // ref : "Comment", 
+            // 대댓글 영향
+            required : true
+        },
+    // ],
+    // 작성 날짜
+    createAt : { type : Date, default : getCurrentTime }, 
+    updateAt : { type : Date, default : getCurrentTime },
+},
+//     {
+//         timestamps: true, // createdAt, updatedAt 자동 생성
+//     }
+)
 
 export default model("Comment", commentSchema, "comment")
