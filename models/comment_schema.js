@@ -29,7 +29,6 @@ const commentSchema = new Schema({
             required : true
         },
     // ],
-    contentCounts : { type : String, required : true },
     // 작성 날짜
     createAt : { type : Date, default : getCurrentTime }, 
     updateAt : { type : Date, default : getCurrentTime },
