@@ -5,6 +5,9 @@ import authRouter from './auth/authRouter.js';
 import customerRouter from './customer/customerRouter.js';
 import communityRouter from './community/communityRouter.js';
 import productRouter from './product/productRouter.js';
+import restaurantRouter from './restaurant/restaurantRouter.js';
+import diaryRouter from './diary/diaryRouter.js';
+
 
 const rootRouter = express.Router();
 
@@ -17,7 +20,10 @@ rootRouter.use("/user", userRouter);
 rootRouter.use("/auth", authRouter);
 // rootRouter.use("/todo", todoRouter)
 rootRouter.use("/customer",customerRouter);
+
 rootRouter.use("/community", communityRouter);
 rootRouter.use("/product", productRouter);
+rootRouter.use("/restaurant",restaurantRouter);
+rootRouter.use("/diary", diaryRouter);
 
 export default rootRouter;

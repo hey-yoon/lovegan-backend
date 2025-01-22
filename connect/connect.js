@@ -2,8 +2,10 @@ import mongoose from "mongoose";
 import dotenv from 'dotenv';
 
 dotenv.config();
+
 const connection_url = process.env.CONNECT_URL;
 console.log(connection_url)
+
 
 const connect = async () => {
     // 배포환경이 아니라면,
