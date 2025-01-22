@@ -1,6 +1,5 @@
 import User from "../../models/user_schema.js";
 import path from 'path'
-import bcrypt, { hash } from 'bcrypt';
 
 const loginUser = async (req, res) => {
     // console.log(req.body)
