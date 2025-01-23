@@ -1,9 +1,8 @@
-import Product from '../../models/product_schema.js'
+import Other from '../../models/other_schema.js'
 
-const getProduct = async (req, res) => {
+const getOther = async (req, res) => {
      const {categories, tag, clickSort} = req.query;
-     //console.log(id);
-     
+     console.log(clickSort);
      let sortName = "like"
      let sortValue = -1;
      if (clickSort) {
@@ -36,20 +35,20 @@ const getProduct = async (req, res) => {
          
   
           // 조건에 맞는 데이터 검색
-          const productLists = await Product.find(filter).sort({[sortName] : sortValue});
-          res.json(productLists); // 결과 반환
+          const otherLists = await Other.find(filter).sort({[sortName] : sortValue});
+          res.json(otherLists); // 결과 반환
       } catch (error) {
           console.error("상품 데이터를 가져오는 중 오류 발생:", error);
           res.status(500).json({ error: '서버 오류' }); // 서버 오류 응답
       }
 };
-const postProduct = async (req, res) => {
+const postOther = async (req, res) => {
      const {id} = req.query;
      console.log(id)
 
      try{
-          const productDetail = await Product.findById(id);
-          res.json(productDetail);
+          const OtherDetail = await Other.findById(id);
+          res.json(OtherDetail);
 
      }catch(error){
           console.error("상품 데이터를 가져오는 중 오류 발생:", error);
@@ -59,4 +58,4 @@ const postProduct = async (req, res) => {
 };
 
 
-export {getProduct, postProduct}
+export {getOther, postOther}

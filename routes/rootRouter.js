@@ -6,6 +6,7 @@ import customerRouter from './customer/customerRouter.js';
 import communityRouter from './community/communityRouter.js';
 import productRouter from './product/productRouter.js';
 import restaurantRouter from './restaurant/restaurantRouter.js';
+import otherRouter from './other/otherRouter.js';
 
 const rootRouter = express.Router();
 
@@ -20,6 +21,7 @@ rootRouter.use("/auth", authRouter);
 rootRouter.use("/customer",customerRouter);
 rootRouter.use("/community", communityRouter);
 rootRouter.use("/product", productRouter);
+rootRouter.use("/other", otherRouter);
 rootRouter.use("/restaurant",restaurantRouter);
 
 export default rootRouter;

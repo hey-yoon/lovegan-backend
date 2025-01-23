@@ -1,5 +1,6 @@
 import connect from "../connect/connect.js";
 import Product from '../models/product_schema.js';
+import Other from '../models/other_schema.js'
 
 connect();
 // title: {type : String, required : true},
@@ -200,11 +201,116 @@ await Product.create(
     // { title: "캐슈넛", description: "부드러운 캐슈넛 200g", price: 6500, star: "4.8", review: 380, discount: 12, tag: "BEST", categories: "간식과일견과" },
     // { title: "마카다미아", description: "고급스러운 마카다미아 150g", price: 9500, star: "4.9", review: 500, discount: 10, tag: "BEST", categories: "간식과일견과" },
     // { title: "잣", description: "영양 가득 잣 180g", price: 7200, star: "4.7", review: 410, discount: 9, tag: "BEST", categories: "간식과일견과" }
-    { title: "카레", description: "맛있는 카레와 밥이 함께 들어있는 간편식", price: 6500, star: "4.9", review: 760, discount: 10, tag: "BEST", categories: "간편식" },
-    { title: "불고기 비빔밥", description: "불고기와 밥이 함께 들어있는 간편식", price: 7000, star: "4.8", review: 650, discount: 12, tag: "BEST", categories: "간편식" },
-    { title: "김치 볶음밥", description: "매콤한 김치와 밥이 함께 들어있는 간편식", price: 5500, star: "4.7", review: 500, discount: 8, tag: "BEST", categories: "간편식" },
-    { title: "된장찌개", description: "고소한 된장찌개와 밥이 함께 들어있는 간편식", price: 6000, star: "4.9", review: 580, discount: 10, tag: "BEST", categories: "간편식" },
-    { title: "닭갈비", description: "매콤한 닭갈비와 밥이 함께 들어있는 간편식", price: 7500, star: "4.8", review: 450, discount: 12, tag: "BEST", categories: "간편식" },
-    { title: "떡볶이", description: "매운 떡볶이가 들어있는 간편식", price: 5000, star: "4.6", review: 400, discount: 5, tag: "BEST", categories: "간편식" },
-    { title: "오므라이스", description: "부드러운 오므라이스와 밥이 함께 들어있는 간편식", price: 6500, star: "4.7", review: 350, discount: 10, tag: "BEST", categories: "간편식" }
+    // { title: "카레", description: "맛있는 카레와 밥이 함께 들어있는 간편식", price: 6500, star: "4.9", review: 760, discount: 10, tag: "BEST", categories: "간편식" },
+    // { title: "불고기 비빔밥", description: "불고기와 밥이 함께 들어있는 간편식", price: 7000, star: "4.8", review: 650, discount: 12, tag: "BEST", categories: "간편식" },
+    // { title: "김치 볶음밥", description: "매콤한 김치와 밥이 함께 들어있는 간편식", price: 5500, star: "4.7", review: 500, discount: 8, tag: "BEST", categories: "간편식" },
+    // { title: "된장찌개", description: "고소한 된장찌개와 밥이 함께 들어있는 간편식", price: 6000, star: "4.9", review: 580, discount: 10, tag: "BEST", categories: "간편식" },
+    // { title: "닭갈비", description: "매콤한 닭갈비와 밥이 함께 들어있는 간편식", price: 7500, star: "4.8", review: 450, discount: 12, tag: "BEST", categories: "간편식" },
+    // { title: "떡볶이", description: "매운 떡볶이가 들어있는 간편식", price: 5000, star: "4.6", review: 400, discount: 5, tag: "BEST", categories: "간편식" },
+    // { title: "오므라이스", description: "부드러운 오므라이스와 밥이 함께 들어있는 간편식", price: 6500, star: "4.7", review: 350, discount: 10, tag: "BEST", categories: "간편식" }
+    // { title: "비타민D 60정", description: "고함량 비타민D 건강 보조제 60정", price: 25000, star: "4.8", review: 399, discount: 20, tag: "SALE", categories: "건강식품" },
+    // { title: "칼슘 120정", description: "크기가 작은 칼슘 건강 보조제 120정", price: 30000, star: "4.9", review: 999, discount: 10, tag: "SALE", categories: "건강식품" },
+    // { title: "오메가3 60정", description: "신선한 오메가3 60정", price: 27500, star: "4.8", review: 566, discount: 25, tag: "SALE", categories: "건강식품" },
 )
+// await Product.deleteOne({title : "강황미 1kg"})
+
+await Other.create( {
+    title: "수세미",
+    description: "친환경 수세미 3개입",
+    price: 3200,
+    star: "4.8",
+    review: 245,
+    discount: 15,
+    tag: "SALE",
+    categories: "주방용품"
+},
+{
+    title: "비건 주방세제",
+    description: "식물성 원료로 만든 친환경 비건 주방세제 500ml",
+    price: 5600,
+    star: "4.7",
+    review: 512,
+    discount: 20,
+    tag: "NEW",
+    categories: "주방용품"
+},
+{
+    title: "대나무 칫솔",
+    description: "100% 생분해성 대나무 칫솔 4개입",
+    price: 8900,
+    star: "4.9",
+    review: 893,
+    discount: 10,
+    tag: "BEST",
+    categories: "욕실용품"
+},
+{
+    title: "천연 면생리대",
+    description: "세탁 가능한 천연 소재 면생리대 3개입",
+    price: 12000,
+    star: "4.8",
+    review: 678,
+    discount: 15,
+    tag: "BEST",
+    categories: "위생용품"
+},
+{
+    title: "재사용 가능 비닐백",
+    description: "식품 보관용 재사용 실리콘 비닐백 5개입",
+    price: 16500,
+    star: "4.7",
+    review: 312,
+    discount: 20,
+    tag: "NEW",
+    categories: "주방용품"
+},
+{
+    title: "비건 화장품 세트",
+    description: "동물 실험 없는 비건 화장품 5종 세트",
+    price: 39000,
+    star: "4.9",
+    review: 1045,
+    discount: 18,
+    tag: "SALE",
+    categories: "화장품"
+},
+{
+    title: "천연 라텍스 베개",
+    description: "친환경 천연 라텍스로 만든 숙면 베개",
+    price: 27000,
+    star: "4.8",
+    review: 789,
+    discount: 12,
+    tag: "BEST",
+    categories: "침구류"
+},
+{
+    title: "친환경 노트북 가방",
+    description: "재활용 소재로 만든 노트북 가방",
+    price: 45000,
+    star: "4.7",
+    review: 612,
+    discount: 22,
+    tag: "NEW",
+    categories: "가방"
+},
+{
+    title: "비건 립밤",
+    description: "천연 성분으로 만든 비건 립밤 15g",
+    price: 8500,
+    star: "4.9",
+    review: 346,
+    discount: 10,
+    tag: "SALE",
+    categories: "화장품"
+},
+{
+    title: "비건 양초",
+    description: "콩 왁스를 사용한 비건 아로마 양초 200g",
+    price: 18000,
+    star: "4.8",
+    review: 278,
+    discount: 15,
+    tag: "SALE",
+    categories: "인테리어"
+})
