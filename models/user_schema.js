@@ -3,7 +3,7 @@ import { getCurrentTime } from "../utils/utils.js";
 
 const userSchema = new Schema({
     email : { type : String, required : true},
-    emailAdress : { type : String, required : true},
+    emailAdress : { type : String },
     password : { type : String },
     nickname : {type : String, required : true},
     intro : { type : String, default : ""},
