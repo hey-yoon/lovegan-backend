@@ -4,6 +4,8 @@ import userRouter from './user/userRouter.js';
 import authRouter from './auth/authRouter.js';
 import customerRouter from './customer/customerRouter.js';
 import communityRouter from './community/communityRouter.js';
+import shippingRouter from './shipping/shippingRouter.js';
+// import todoRouter from './todo/todoRouter.js';
 import productRouter from './product/productRouter.js';
 import restaurantRouter from './restaurant/restaurantRouter.js';
 import otherRouter from './other/otherRouter.js';
@@ -23,6 +25,8 @@ rootRouter.use("/auth", authRouter);
 rootRouter.use("/customer",customerRouter);
 
 rootRouter.use("/community", communityRouter);
+rootRouter.use("/shipping", shippingRouter);
+
 rootRouter.use("/product", productRouter);
 rootRouter.use("/other", otherRouter);
 rootRouter.use("/restaurant",restaurantRouter);

@@ -1,5 +1,10 @@
 import User from "../../models/user_schema.js";
 import path from 'path'
+import bcrypt, { hash } from 'bcrypt';
+// import CoolsmsMessageService from "coolsms-node-sdk";
+// import msgModule from 'coolsms-node-sdk';
+import coolsms from 'coolsms-node-sdk';
+
 
 const loginUser = async (req, res) => {
     // console.log(req.body)
@@ -136,6 +141,158 @@ const updatePassword = async (req, res) => {
     }
 }
 
+const updateNickname = async (req, res) => { 
+    try {
+        // 사용자 찾기
+        const { email, value } = req.body;
+        
+        const findUser = await User.findOne({ email: email });
+        console.log("updateNickname" + updateNickname);
+        
+        if (!findUser) {
+            return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+        }
+
+        await User.updateOne(
+            { email: email },  // 검색 조건 수정
+            { $set: { nickname: value } } // $set 사용
+        );
+
+        res.status(200).json({ message: "닉네임 변경 성공" });
+    } catch (error) {
+        console.error("닉네임 변경 중 오류:", error);
+        res.status(500).json({ message: "서버 오류" });
+    }
+}
+
+const updateIntro = async (req, res) => { 
+    try {
+        // 사용자 찾기
+        const { email, value } = req.body;
+        
+        const findUser = await User.findOne({ email: email });
+        
+        if (!findUser) {
+            return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+        }
+
+        await User.updateOne(
+            { email: email },  // 검색 조건 수정
+            { $set: { intro: value } } // $set 사용
+        );
+
+        res.status(200).json({ message: "한 줄 소개 변경 성공" });
+    } catch (error) {
+        console.error("한 줄 소개 변경 중 오류:", error);
+        res.status(500).json({ message: "서버 오류" });
+    }
+}
 
 
-export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword }
+// 인증을 위해 발급받은 본인의 API Key와 API Secret을 사용
+const sms = coolsms.default;
+const apiKey = 'NCS6DDSBDYN6FDFS';
+const apiSecret = 'OYHFVIXYADK5MORXSKROG47EN1YGNQA2';
+const messageService = new sms(apiKey, apiSecret);
+
+const verificationCodes = {}; // 저장소
+
+const generateVerificationCode = (phoneNumber) => {
+    const code = Math.floor(100000 + Math.random() * 900000).toString(); // 6자리 코드
+    verificationCodes[phoneNumber] = {
+        code: code,
+        expiresAt: Date.now() + 3 * 60 * 1000 // 3분 후 만료
+    };
+    return code;
+};
+
+/**
+ * 휴대폰 번호로 인증 코드 전송
+ */
+const sendVerificationCode = async (req, res) => {
+    const { phoneNumber } = req.body;
+    if (!phoneNumber) {
+        return res.status(400).json({ success: false, message: "휴대폰 번호를 제공해야 합니다." });
+    }
+
+    try {
+        // 인증 코드 생성 및 저장
+        const verificationCode = generateVerificationCode(phoneNumber);
+
+        // 메시지 구성
+        const message = {
+            text: `[인증번호] 인증번호: ${verificationCode}`,
+            to: phoneNumber,
+            from: '01093400031'
+        };
+
+        console.log("message" + message);
+
+        // 인증번호를 메모리에 저장 (실제 환경에서는 DB에 저장 권장)
+        verificationCodes[phoneNumber] = verificationCode;
+
+        // 문자 전송
+        await messageService.sendOne(message);
+        res.status(200).json({ success: true, message: "인증번호가 전송되었습니다." });
+    } catch (error) {
+        console.error("문자 전송 오류:", error);
+        res.status(500).json({ success: false, message: "문자 전송에 실패했습니다." });
+    }
+};
+
+/**
+ * 인증 코드 검증
+ */
+const verifyCode = async (req, res) => {
+    const { email, phoneNumber, code } = req.body;
+
+    console.log("verifyCode 함수: " + email);
+    console.log("verifyCode 함수: " + phoneNumber);
+    console.log("verifyCode 함수: " + code);
+
+    const findUser = await User.findOne({ email: email });
+        
+    if (!findUser) {
+        return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+    }
+
+    if (!phoneNumber || !code) {
+        return res.status(400).json({ success: false, message: "휴대폰 번호와 인증 코드를 제공해야 합니다." });
+    }
+
+    try {
+        const storedData = verificationCodes[phoneNumber];
+        console.log("storedData: " + storedData);
+
+        if (!storedData) {
+            return res.status(400).json({ success: false, message: "인증 코드가 존재하지 않습니다." });
+        }
+
+        // 만료 시간 검사
+        // if (Date.now() > storedData.expiresAt) {
+        //     // delete verificationCodes[phoneNumber];
+        //     return res.status(400).json({ success: false, message: "인증 코드가 만료되었습니다." });
+        // }
+
+        
+
+        // 저장된 인증 코드와 비교
+        if (storedData === code) {
+            // 인증 성공
+            // 휴대폰 번호 업데이트 (updateOne 수정)
+            await User.updateOne(
+                { email: email },  // 검색 조건 수정
+                { $set: { phone: phoneNumber } } // $set 사용
+            );
+            delete verificationCodes[phoneNumber]; // 인증 완료 후 코드 삭제
+            res.status(200).json({ success: true, message: "인증에 성공하여 전화번호가 변경되었습니다." });
+        } else {
+            res.status(400).json({ success: false, message: "인증 코드가 올바르지 않습니다." });
+        }
+    } catch (error) {
+        console.error("인증 코드 확인 오류:", error);
+        res.status(500).json({ success: false, message: "서버 오류가 발생했습니다." });
+    }
+};
+
+export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode }
