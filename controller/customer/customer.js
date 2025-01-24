@@ -51,7 +51,7 @@ const formQuest = async (req, res) => {
         let newForm = {
             no: newNo,
             title: title,
-            writer: writer,
+            writer: writer ,
             date: getCurrentTime(),
             contents: contents,
         }
