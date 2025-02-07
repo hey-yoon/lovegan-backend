@@ -85,10 +85,20 @@ const updateQuest = async(req, res) => {
 
 // 삭제 로직
 const deleteQuest = async(req, res) => {
+    const {no} = req.body;
+    
     try{
-        const {no} = req.body;
         await Quest.deleteOne({no});
-        res.status(200).json({message:"삭제성공"});
+        const remaining = await Quest.find().sort({no:1});
+        // 삭제 후 남아있는 데이터들을 no를 기준으로,no:1부터 순서대로 재정렬하기
+
+        for(let i=0;i<remaining.length;i++){
+            await Quest.updateOne(
+                { _id: remaining[i]._id }, //해당 문서 찾기
+                { $set: { no: i + 1 } } //새로운 번호 찾기(1부터 순서대로)
+            )
+        }
+        res.status(200).json({message:"삭제 성공"})
     }
     catch(error){
         res.status(500).json({error: "데이터베이스 오류"})
