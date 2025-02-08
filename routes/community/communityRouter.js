@@ -1,5 +1,5 @@
 import express from "express";
-import { addComment, addReply, getComment, getPost, getPostById } from "../../controller/community/community.js";
+import { addComment, addReply, getComment, getMyPosts, getPost, getPostById } from "../../controller/community/community.js";
 
 const communityRouter = express.Router();
 
@@ -20,5 +20,8 @@ communityRouter.post("/addComment", addComment);
 
 // 대댓글 추가하기 -> 특정 댓글들에 대댓글 달기(몽고디비에 추가, 저장 될 수 있도록)
 communityRouter.post("/addReply", addReply);
+
+// 내 게시물 가져오기
+communityRouter.get("/getMyPosts", getMyPosts)
 
 export default communityRouter;
