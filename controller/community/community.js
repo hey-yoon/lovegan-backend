@@ -1,5 +1,6 @@
 import Comment from "../../models/comment_schema.js";
 import Post from "../../models/post_schema.js"
+import User from "../../models/user_schema.js"
 
 // 게시글 조회
 const getPost = async (req, res) => {
@@ -127,4 +128,36 @@ const addReply = async (req, res) => {
     }
 };
 
-export {getPost, getPostById, getComment, addComment, addReply};
+// 게시글 조회
+const getMyPosts = async (req, res) => {
+    console.log(req.body);
+    console.log("들어옴");
+    // console.log(req.body)
+    const { email } = req.body;
+    // console.log(email);
+    const user = await User.findOne({ email });
+    console.log(user._id);
+
+    try {
+        const myPosts = await Post.find({ userRef: user._id });
+        console.log("여기" + myPosts.length)
+
+        if (myPosts.length === 0) {
+            return res.status(201).json({
+                success: true,
+                message: '작성한 게시물이 없습니다.',
+                myPosts: [],
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            myPosts,
+        });
+    } catch (error) {
+        console.error('Error fetching:', error);
+        return res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });
+    }
+};
+
+export {getPost, getPostById, getComment, addComment, addReply, getMyPosts};
