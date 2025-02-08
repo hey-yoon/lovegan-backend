@@ -15,18 +15,17 @@ const getPost = async (req, res) => {
     }
 };
 
-// 특정 게시글 조회
+// 각 게시글 조회
 const getPostById = async (req, res) => {
     
     try {
         const { id } = req.params;
         console.log(req.params);
 
-        const posts = await Post.findById(id).populate("title")
-        .lean()
+        const posts = await Post.findById(id).lean()
         console.log(posts)
 
-        if(!Post) return res.status(404).json({ message : "게시글을 찾을 수 없습니다." });
+        if(!posts) return res.status(404).json({ message : "게시글을 찾을 수 없습니다." });
 
         res.status(200).json(posts);
     } catch (error) {
@@ -34,15 +33,33 @@ const getPostById = async (req, res) => {
     }
 };
 
+// 게시글 상세 페이지 조회
+// const getPostDetailById = async (req, res) => {
+//     try {
+
+//         const { postId } = req.params;
+//         console.log(req.params);
+        
+//         const postDetails = await postDetail.find(postId).lean();
+//         console.log(postDetails)
+
+//         if(!postDetails) return res.status(404).json({ message : "게시글 상세 페이지를 찾을 수 없습니다." });
+
+//         res.status(200).json(postDetails);
+
+//     } catch (error) {
+//         res.status(500).json({ message : "게시글 상세 페이지 조회 실패", error});
+//     }
+// };
+
 // 댓글
 // 댓글 조회
 const getComment = async (req, res) => {
     try {
         const comments = await Comment.find().lean()
         const commentCount = comments.length;
-        // .populate("author")
         console.log(comments)
-        console.log(commentCount);
+        // console.log(commentCount);
 
         res.status(200).json({comments, commentCount});
     } catch (error) {
@@ -53,32 +70,40 @@ const getComment = async (req, res) => {
 // 댓글 추가
 const addComment = async (req, res) => {
     try {
-        const {newComment} = req.body;
+        const {content, post} = req.body;
         console.log(req.body)
+        
+        if (!content || !post) {
+            return res.status(400).json({ message: "내용과 postId는 필수입니다." });
+        }
 
-        console.log(newComment);
-        // if (!author || !content) {
-        //     return res.status(400).json({ message: "작성자와 내용은 필수입니다." });
-        // }
-        const comments = await Comment.find({ createAt });
-        // .sort({ createdAt: -1 });
-        console.log(comments);
         const addNewComment = new Comment({
-            author : newComment.author,  // 작성자 ID 또는 이름
-            content : newComment.content, // 댓글 내용
-            createdAt: new Date(), // 댓글 작성 시간
+            content, // 댓글 내용
+            post : req.body.post,
+            createAt: new Date(),
+            updatedAt: new Date(),
         });
-        console.log("저장 완료: ", addNewComment)
+
+        // const comments = await Comment.find().lean();
+        // console.log(comments);
 
         await addNewComment.save();
+
+        console.log("저장 완료: ", addNewComment)
+
+        if(!addNewComment) {
+            return res.status(500).json({ message : "댓글 저장 후 가져오는데 실패함."});
+        }
 
         // 성공 응답
         return res.status(201).json({
             addCommentSuccess: true,
             message: "댓글이 성공적으로 등록되었습니다.",
+            newComment: addNewComment
         });
 
     } catch (error) {
+        console.error("서버 오류 :", error);
         res.status(500).json({ message : "댓글 저장 실패", error });
     }
 };
@@ -86,7 +111,7 @@ const addComment = async (req, res) => {
 // 대댓글 추가
 const addReply = async (req, res) => {
     try {
-        const { id, reply } = req.body;
+        const { id } = req.body;
         const parentComment = await Comment.findById(id);
 
         if(!parentComment) {
