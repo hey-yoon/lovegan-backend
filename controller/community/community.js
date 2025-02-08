@@ -112,20 +112,25 @@ const addReply = async (req, res) => {
 
 // 게시글 조회
 const getMyPosts = async (req, res) => {
-    console.log(req.body);
-    console.log("들어옴");
-    // console.log(req.body)
-    const { email } = req.body;
-    // console.log(email);
-    const user = await User.findOne({ email });
-    console.log(user._id);
-
     try {
-        const myPosts = await Post.find({ userRef: user._id });
-        console.log("여기" + myPosts.length)
+        // console.log(req.body);
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ success: false, message: '이메일이 필요합니다.' });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ success: false, message: '사용자를 찾을 수 없습니다.' });
+        }
+
+        // console.log(user._id);
+        const myPosts = await Post.find({ author: user._id });
+
+        // console.log("게시글 개수: " + myPosts.length);
 
         if (myPosts.length === 0) {
-            return res.status(201).json({
+            return res.status(200).json({
                 success: true,
                 message: '작성한 게시물이 없습니다.',
                 myPosts: [],
@@ -136,10 +141,12 @@ const getMyPosts = async (req, res) => {
             success: true,
             myPosts,
         });
+
     } catch (error) {
-        console.error('Error fetching:', error);
+        console.error('Error fetching posts:', error);
         return res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });
     }
 };
+
 
 export {createPost, getPost, getPostById, getComment, addComment, addReply, getMyPosts};
