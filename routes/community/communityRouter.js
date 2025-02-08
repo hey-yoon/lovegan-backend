@@ -25,6 +25,6 @@ communityRouter.post("/addComment", addComment);
 communityRouter.post("/addReply", addReply);
 
 // 내 게시물 가져오기
-communityRouter.get("/getMyPosts", getMyPosts)
+communityRouter.post("/getMyPosts", getMyPosts)
 
 export default communityRouter;
