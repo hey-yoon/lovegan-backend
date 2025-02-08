@@ -59,7 +59,7 @@ const registerShipping = async (req, res) => {
 };
 
 const listShipping = async (req, res) => {
-    console.log("listShipping: " + req.body);
+    // console.log("listShipping: " + req.body);
     const { email } = req.body; // 쿼리 스트링에서 이메일을 받음
 
     if (!email) {
@@ -77,12 +77,13 @@ const listShipping = async (req, res) => {
 
     try {
         // 이메일을 기준으로 배송지 목록 조회
-        console.log(user._id);
+        // console.log(user._id);
         const shippingAddresses = await Shipping.find({ userRef: user._id });
-        console.log(shippingAddresses); // 결과 확인
+        // console.log(shippingAddresses); // 결과 확인
+        console.log(shippingAddresses.length)
 
         if (shippingAddresses.length === 0) {
-            return res.status(204).json({
+            return res.status(201).json({
                 success: true,
                 message: '배송지가 없습니다.',
                 shippingAddresses: [],
