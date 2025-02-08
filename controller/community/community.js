@@ -166,4 +166,4 @@ const getMyPosts = async (req, res) => {
     }
 };
 
-export {createPost, getPost, getPostById, getComment, addComment, addReply, getMyPosts};
+export {getPost, getPostById, getComment, addComment, addReply, getMyPosts};
