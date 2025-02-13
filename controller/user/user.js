@@ -35,52 +35,77 @@ const loginUser = async (req, res) => {
     }
 }
 const registerUser = async (req, res) => {
-    // console.log(req.body)
+    console.log("req.body : ", req.body)
     const { nickname, email, password, phone } = req.body;
     const findUser = await User.findOne({email : email}).lean();
 
-    if(findUser){
-        return res.status(409).json({
-            registerSuccess : false,
-            message : "이미 존재하는 이메일입니다."
-        })
-    }else{
-        let register = {
-            email : email,
-            password : password,
-            phone : phone,
-            nickname : nickname
+        if(findUser){
+            return res.status(409).json({
+                registerSuccess : false,
+                message : "이미 존재하는 이메일입니다."
+            })
         }
-        await User.create(register);
-        return res.status(201).json({
-            registerSuccess : true,
-            message : "축하합니다. 회원가입이 완료되었습니다."
-        })
         // 비밀번호 해시화
-        // const saltRounds = 10; // 해시 강도를 설정(높을 수록 안전);
-        // const plainPassword = req.body.password
-        // console.log("현재 비밀번호", plainPassword);
+        try{
+            const saltRounds = 10; // 해시 강도를 설정(높을 수록 안전);
+            const plainPassword = req.body.password;
+            const hashPassword = await bcrypt.hash(password, saltRounds);
+            console.log("현재 비밀번호", plainPassword);
+
+            let register = {
+                email : email,
+                password : hashPassword,
+                nickname : nickname,
+                phone : phone
+            }
+            console.log("MongoDB 저장 전 데이터:", register);
+            await User.create(register);
+            return res.status(201).json({
+                message: "축하합니다. 회원가입이 완료되었습니다.",
+                registerSuccess: true
+            });
+        }
+        catch(error){
+            console.error("해시화 오류 : ", error);
+            return res.status(500).json({
+                message : "회원가입 중 오류가 발생했습니다.",
+                registerSuccess : false,
+                error : error.message
+            })
+        }
 
         // bcrypt.hash(plainPassword, saltRounds, async (err, hashPassword) => {
         //     if(err){
         //         console.log(err)
         //     }else{
         //         console.log("해쉬 비밀번호", hashPassword);
-        //         let registerUser = {
+        //         let register = {
         //             email : email,
         //             password : hashPassword,
-        //             name : name,
+        //             name : nickname,
         //             phone : phone
         //         }
 
-        //         await User.create(registerUser);
+        //         await User.create(register);
         //         return res.status(201).json({
-        //             message : "Congratulations! Your registration is complete",
+        //             message : "축하합니다. 회원가입이 완료되었습니다.",
         //             registerSuccess : true
         //         })
         //     }
         // })
-    }
+        
+        // let register = {
+        //     email : email,
+        //     password : password,
+        //     phone : phone,
+        //     nickname : nickname
+        // }
+        // await User.create(register);
+        // return res.status(201).json({
+        //     registerSuccess : true,
+        //     message : "축하합니다. 회원가입이 완료되었습니다."
+        // })
+    
 }
 const updateUser = async (req, res) => {
     //req.body.email
