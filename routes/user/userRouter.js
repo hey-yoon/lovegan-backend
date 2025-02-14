@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteUser, loginUser, registerUser, updateUser, updatePicture, updatePassword, sendVerificationCode, verifyCode, updateNickname, updateIntro, getMyFollowing } from '../../controller/user/user.js';
+import { deleteUser, loginUser, registerUser, updateUser, updatePicture, updatePassword, sendVerificationCode, verifyCode, updateNickname, updateIntro, getMyFollowing, getMyFollowers, followStatus, toggleFollow } from '../../controller/user/user.js';
 
 const userRouter = express.Router();
 
@@ -15,6 +15,9 @@ userRouter.post("/change-intro", updateIntro);
 userRouter.post("/send-verification", sendVerificationCode);
 userRouter.post("/verify-code", verifyCode);
 // 팔로워/팔로잉 관련 라우트
-userRouter.post("/getMyFollowing", getMyFollowing)
+userRouter.post("/getMyFollowing", getMyFollowing);
+userRouter.post("/getMyFollowers", getMyFollowers);
+userRouter.post("/follow-status", followStatus);
+userRouter.post("/toggle-follow", toggleFollow);
 
 export default userRouter;

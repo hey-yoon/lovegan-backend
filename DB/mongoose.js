@@ -180,28 +180,52 @@ connect();
 // );
 
 
-const addFollowing = async () => {
-    try {
-        // email이 cyaein@gmail.com인 유저를 찾음
-        const user = await User.findOne({ email: '@gmail.com' });
+// const addFollowing = async () => {
+//     try {
+//         // email이 cyaein@gmail.com인 유저를 찾음
+//         const user = await User.findOne({ email: '@gmail.com' });
 
-        if (!user) {
-            console.log("유저를 찾을 수 없습니다.");
-            return;
-        }
+//         if (!user) {
+//             console.log("유저를 찾을 수 없습니다.");
+//             return;
+//         }
 
-        // following 배열에 새로운 유저 ID 추가
-        const userIdToFollow = '67935b8d3f9b07e01ab2392b';
-        if (!user.following.includes(userIdToFollow)) {
-            user.following.push(userIdToFollow);
-            await user.save(); // 변경 사항 저장
-            console.log('성공적으로 팔로잉을 추가했습니다.');
-        } else {
-            console.log('이미 해당 유저를 팔로우하고 있습니다.');
-        }
-    } catch (error) {
-        console.error('에러 발생:', error);
-    }
-};
+//         // following 배열에 새로운 유저 ID 추가
+//         const userIdToFollow = '67935b8d3f9b07e01ab2392b';
+//         if (!user.following.includes(userIdToFollow)) {
+//             user.following.push(userIdToFollow);
+//             await user.save(); // 변경 사항 저장
+//             console.log('성공적으로 팔로잉을 추가했습니다.');
+//         } else {
+//             console.log('이미 해당 유저를 팔로우하고 있습니다.');
+//         }
+//     } catch (error) {
+//         console.error('에러 발생:', error);
+//     }
+// };
 
-addFollowing();
+// const addFollower = async () => {
+//     try {
+//         // email이 cyaein@gmail.com인 유저를 찾음
+//         const user = await User.findOne({ email: 'cyaein@gmail.com' });
+
+//         if (!user) {
+//             console.log("유저를 찾을 수 없습니다.");
+//             return;
+//         }
+
+//         // following 배열에 새로운 유저 ID 추가
+//         const userIdToFollow = '67935b8d3f9b07e01ab2392b';
+//         if (!user.followers.includes(userIdToFollow)) {
+//             user.followers.push(userIdToFollow);
+//             await user.save(); // 변경 사항 저장
+//             console.log('성공적으로 팔로워를 추가했습니다.');
+//         } else {
+//             console.log('이미 해당 유저를 팔로우하고 있습니다.');
+//         }
+//     } catch (error) {
+//         console.error('에러 발생:', error);
+//     }
+// };
+
+// addFollower();
