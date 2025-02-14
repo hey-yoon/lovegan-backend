@@ -73,38 +73,6 @@ const registerUser = async (req, res) => {
                 error : error.message
             })
         }
-
-        // bcrypt.hash(plainPassword, saltRounds, async (err, hashPassword) => {
-        //     if(err){
-        //         console.log(err)
-        //     }else{
-        //         console.log("해쉬 비밀번호", hashPassword);
-        //         let register = {
-        //             email : email,
-        //             password : hashPassword,
-        //             name : nickname,
-        //             phone : phone
-        //         }
-
-        //         await User.create(register);
-        //         return res.status(201).json({
-        //             message : "축하합니다. 회원가입이 완료되었습니다.",
-        //             registerSuccess : true
-        //         })
-        //     }
-        // })
-        
-        // let register = {
-        //     email : email,
-        //     password : password,
-        //     phone : phone,
-        //     nickname : nickname
-        // }
-        // await User.create(register);
-        // return res.status(201).json({
-        //     registerSuccess : true,
-        //     message : "축하합니다. 회원가입이 완료되었습니다."
-        // })
     
 }
 const updateUser = async (req, res) => {
