@@ -3,9 +3,7 @@ import { getCurrentTime } from "../utils/utils.js";
 
 // 게시글 스키마
 const postSchema = new Schema({
-    author: { type: Schema.Types.ObjectId, 
-        // 유저 스키마와 참조
-        ref : "User", required : false },
+    author: { type: Schema.Types.ObjectId, ref : "User", required : true },
     title : { type : String, required : true}, // 게시글 제목
     content : { type : String, required : true },
     createdAt : { type : Date, default : getCurrentTime }, // 작성 날짜
