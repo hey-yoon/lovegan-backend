@@ -19,7 +19,7 @@ const userSchema = new Schema({
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     lastLogin: { type : String },
-    lastUpload: { type : String }
+    lastUpload: { type : String },
 })
 
 export default model("User", userSchema, "users");

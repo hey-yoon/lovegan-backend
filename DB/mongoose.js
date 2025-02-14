@@ -229,3 +229,38 @@ connect();
 // };
 
 // addFollower();
+
+
+import Scrap from "../models/scrap_schema.js"; // Scrap 모델
+const addScrap = async () => {
+    try {
+        const user = await User.findOne({ email: 'cyaein@gmail.com' });
+
+        if (!user) {
+            console.log("유저를 찾을 수 없습니다.");
+            return;
+        }
+
+        // following 배열에 새로운 유저 ID 추가
+        const userId = user._id;
+        const postId = '67808a3e62d76b07f963a440';
+        
+        // 스크랩 여부 확인
+        const existingScrap = await Scrap.findOne({ userId, postId });
+
+        if (existingScrap) {
+            console.log("⚠️ 이미 스크랩한 게시물입니다.");
+            return
+        }
+
+        // 새로운 스크랩 추가
+        const newScrap = new Scrap({ userId, postId });
+        await newScrap.save();
+
+
+    } catch (error) {
+        console.error('에러 발생:', error);
+    }
+};
+
+addScrap();

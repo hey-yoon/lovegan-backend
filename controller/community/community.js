@@ -1,6 +1,7 @@
 import Comment from "../../models/comment_schema.js";
 import Post from "../../models/post_schema.js"
 import User from "../../models/user_schema.js"
+import Scrap from "../../models/scrap_schema.js"
 
 // 게시글 조회
 const getPost = async (req, res) => {
@@ -166,4 +167,86 @@ const getMyPosts = async (req, res) => {
     }
 };
 
-export {getPost, getPostById, getComment, addComment, addReply, getMyPosts};
+// 내가 스크랩한 게시글 조회
+const getMyScraps = async (req, res) => {
+    try {
+        // console.log(req.body);
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ success: false, message: '이메일이 필요합니다.' });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ success: false, message: '사용자를 찾을 수 없습니다.' });
+        }
+
+        // postId를 변환하면서, postId 내부의 author도 변환
+        const userScraps = await Scrap.find({ userId: user._id })
+            .populate({
+                path: "postId",
+                populate: { path: "author", model: "User", select: "nickname email" }, //  model: "User" 명시
+            })
+            .exec();
+
+        // postId가 실제 Post 객체로 변환됨
+        const myScraps = userScraps.map(scrap => scrap.postId); 
+
+        if (myScraps.length === 0) {
+            return res.status(200).json({
+                success: true,
+                message: '스크랩한 게시물이 없습니다.',
+                myScraps: [],
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            myScraps,
+        });
+
+    } catch (error) {
+        console.error('Error fetching scraps:', error);
+        return res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });
+    }
+};
+
+const scrapPost = (req, res) => {
+    const { userId, postId } = req.body;
+
+    if (!userId || !postId) {
+        return res.status(400).json({ error: 'userId와 postId가 필요합니다.' });
+    }
+
+    // 스크랩 추가 로직 (예: 데이터베이스에 추가)
+    // userScraps는 임시 데이터 구조
+    if (!userScraps[userId]) {
+        userScraps[userId] = [];
+    }
+
+    if (!userScraps[userId].includes(postId)) {
+        userScraps[userId].push(postId);
+        return res.status(200).json({ message: '스크랩이 추가되었습니다.' });
+    } else {
+        return res.status(400).json({ message: '이미 스크랩한 게시물입니다.' });
+    }
+};
+
+const scrapDelete = (req, res) => {
+    const { userId, postId } = req.body;
+
+    if (!userId || !postId) {
+        return res.status(400).json({ error: 'userId와 postId가 필요합니다.' });
+    }
+
+    // 스크랩 삭제 로직 (예: 데이터베이스에서 삭제)
+    if (userScraps[userId] && userScraps[userId].includes(postId)) {
+        userScraps[userId] = userScraps[userId].filter(id => id !== postId);
+        return res.status(200).json({ message: '스크랩이 취소되었습니다.' });
+    } else {
+        return res.status(400).json({ message: '스크랩된 게시물이 아닙니다.' });
+    }
+};
+
+
+export {getPost, getPostById, getComment, addComment, addReply, getMyPosts, getMyScraps, scrapPost, scrapDelete};
