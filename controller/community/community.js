@@ -23,7 +23,9 @@ const getPostById = async (req, res) => {
         const { id } = req.params;
         console.log(req.params);
 
-        const posts = await Post.findById(id).lean()
+        const posts = await Post.findById(id)
+        .populate('author')
+        .lean()
         console.log(posts)
 
         if(!posts) return res.status(404).json({ message : "게시글을 찾을 수 없습니다." });
