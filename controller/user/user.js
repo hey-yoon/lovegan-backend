@@ -1,6 +1,5 @@
 import User from "../../models/user_schema.js";
 import path from 'path'
-import bcrypt, { hash } from 'bcrypt';
 // import CoolsmsMessageService from "coolsms-node-sdk";
 // import msgModule from 'coolsms-node-sdk';
 import coolsms from 'coolsms-node-sdk';
@@ -35,45 +34,52 @@ const loginUser = async (req, res) => {
     }
 }
 const registerUser = async (req, res) => {
-    console.log("req.body : ", req.body)
+    // console.log(req.body)
     const { nickname, email, password, phone } = req.body;
     const findUser = await User.findOne({email : email}).lean();
 
-        if(findUser){
-            return res.status(409).json({
-                registerSuccess : false,
-                message : "이미 존재하는 이메일입니다."
-            })
+    if(findUser){
+        return res.status(409).json({
+            registerSuccess : false,
+            message : "이미 존재하는 이메일입니다."
+        })
+    }else{
+        let register = {
+            email : email,
+            password : password,
+            phone : phone,
+            nickname : nickname
         }
+        await User.create(register);
+        return res.status(201).json({
+            registerSuccess : true,
+            message : "축하합니다. 회원가입이 완료되었습니다."
+        })
         // 비밀번호 해시화
-        try{
-            const saltRounds = 10; // 해시 강도를 설정(높을 수록 안전);
-            const plainPassword = req.body.password;
-            const hashPassword = await bcrypt.hash(password, saltRounds);
-            console.log("현재 비밀번호", plainPassword);
+        // const saltRounds = 10; // 해시 강도를 설정(높을 수록 안전);
+        // const plainPassword = req.body.password
+        // console.log("현재 비밀번호", plainPassword);
 
-            let register = {
-                email : email,
-                password : hashPassword,
-                nickname : nickname,
-                phone : phone
-            }
-            console.log("MongoDB 저장 전 데이터:", register);
-            await User.create(register);
-            return res.status(201).json({
-                message: "축하합니다. 회원가입이 완료되었습니다.",
-                registerSuccess: true
-            });
-        }
-        catch(error){
-            console.error("해시화 오류 : ", error);
-            return res.status(500).json({
-                message : "회원가입 중 오류가 발생했습니다.",
-                registerSuccess : false,
-                error : error.message
-            })
-        }
-    
+        // bcrypt.hash(plainPassword, saltRounds, async (err, hashPassword) => {
+        //     if(err){
+        //         console.log(err)
+        //     }else{
+        //         console.log("해쉬 비밀번호", hashPassword);
+        //         let registerUser = {
+        //             email : email,
+        //             password : hashPassword,
+        //             name : name,
+        //             phone : phone
+        //         }
+
+        //         await User.create(registerUser);
+        //         return res.status(201).json({
+        //             message : "Congratulations! Your registration is complete",
+        //             registerSuccess : true
+        //         })
+        //     }
+        // })
+    }
 }
 const updateUser = async (req, res) => {
     //req.body.email
@@ -287,6 +293,38 @@ const verifyCode = async (req, res) => {
         res.status(500).json({ success: false, message: "서버 오류가 발생했습니다." });
     }
 };
+// 회원가입할 때 인증번호 인증
+const signupVerifyCode = async (req, res) => {
+    const { phoneNumber, code } = req.body;
+    console.log("verifyCode 함수: " + phoneNumber);
+    console.log("verifyCode 함수: " + code);
+
+    if (!phoneNumber || !code) {
+        return res.status(400).json({ success: false, message: "휴대폰 번호와 인증 코드를 제공해야 합니다." });
+    }
+
+    try {
+        const storedData = verificationCodes[phoneNumber];
+        console.log("저장된 인증번호:", storedData);
+
+        if (!storedData) {
+            return res.status(400).json({ success: false, message: "인증 코드가 존재하지 않습니다." });
+        }
+
+        if (storedData.code !== code) {
+            return res.status(400).json({ success: false, message: "인증 코드가 올바르지 않습니다." });
+        }
+
+        // 인증 완료 후 코드 삭제
+        delete verificationCodes[phoneNumber];
+
+        return res.status(200).json({ success: true, message: "인증 성공!" });
+
+    } catch (error) {
+        console.error("인증 코드 확인 오류:", error);
+        return res.status(500).json({ success: false, message: "서버 오류 발생" });
+    }
+}
 
 // 내 팔로잉 조회
 const getMyFollowing = async (req, res) => {
@@ -327,4 +365,4 @@ const getMyFollowing = async (req, res) => {
     }
 };
 
-export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode, getMyFollowing }
+export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode, getMyFollowing, signupVerifyCode }
