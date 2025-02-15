@@ -9,7 +9,8 @@ const productSchema = new Schema({
     discount : {type: Number, required : true},
     tag : {type : String, required : true},
     categories : {type : String, required : true},
-    image : {type : String}
+    image : {type : String},
+    photoId: { type: mongoose.Schema.Types.ObjectId, ref: 'ProductPhoto' }
 })
 
 export default model("Product", productSchema, "product");
