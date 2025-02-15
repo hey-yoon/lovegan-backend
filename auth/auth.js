@@ -130,7 +130,7 @@ const naverVerify = async (accessToken, refreshToken, profile, done) => {
     })
     
     newUser.accessToken = accessToken;
-    done(null, newUser);
+    done(null, {...newUser, accessToken});
   }
 
   } catch (error) {
@@ -192,7 +192,7 @@ const googleVerify = async (accessToken, refreshToken, profile, done) => {
 
       newUser.accessToken = accessToken;
       console.log("newUser", newUser)
-      done(null, newUser);
+      done(null, {...newUser, accessToken});
     }
 
   } catch (error) {

@@ -3,6 +3,7 @@ import passport from "passport";
 import { localStrategy, jwtStrategy } from "../../controller/auth/auth.js";
 
 
+
 const authRouter = express.Router();
 const clientUrl = "http://localhost:3000"
 // auth
@@ -30,16 +31,16 @@ export default authRouter;
 
 
 // sns 로그인 후 session에 사용자가 존재하는지 여부를 확인하기
-authRouter.get('/profile', (req, res)=> {
-    // session user가 있으면 true 없으면 false
-    console.log(req.isAuthenticated())
-    if(!req.isAuthenticated()){
-        return res.redirect("/");
-    }
-    const {email, name, createAt, phone} = req.user;
-    res.status(200).json({
-        user : {email, name, createAt, phone},
-        isLogin : true,
-        message : "로그인이 되었습니다."
-    })
-})
+// authRouter.get('/profile', (req, res)=> {
+//     // session user가 있으면 true 없으면 false
+//     console.log(req.isAuthenticated())
+//     if(!req.isAuthenticated()){
+//         return res.redirect("/");
+//     }
+//     const {email, name, createAt, phone} = req.user;
+//     res.status(200).json({
+//         user : {email, name, createAt, phone},
+//         isLogin : true,
+//         message : "로그인이 되었습니다."
+//     })
+// })
