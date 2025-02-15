@@ -288,4 +288,43 @@ const verifyCode = async (req, res) => {
     }
 };
 
-export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode }
+// 내 팔로잉 조회
+const getMyFollowing = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ success: false, message: '이메일이 필요합니다.' });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ success: false, message: '사용자를 찾을 수 없습니다.' });
+        }
+
+        let myFollowing = [];
+
+        if (user.following.length === 0) {
+            return res.status(200).json({
+                success: true,
+                message: '팔로잉이 없습니다.',
+                myFollowing: [],
+            });
+        }
+
+        for (let i = 0; i < user.following.length; i++) {
+            let followingUser = await User.findOne({ _id: user.following[i]._id });
+            myFollowing.push(followingUser);
+        }
+
+        return res.status(200).json({
+            success: true,
+            myFollowing,
+        });
+
+    } catch (error) {
+        console.error('Error fetching following:', error);
+        return res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });
+    }
+};
+
+export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode, getMyFollowing }

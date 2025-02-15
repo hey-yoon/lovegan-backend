@@ -8,7 +8,7 @@ const userSchema = new Schema({
     nickname : {type : String, required : true},
     intro : { type : String, default : ""},
     phone : { type : String, default : "00000000000"},
-    pictureName : {type : String, default : "none_picture.jpg"},
+    pictureName : {type : String, default : "none_picture.svg"},
     picturePath : {type : String, default : "/uploads/profiles"},
     token : String, // refresh 토큰
     createAt : { type : String, default : getCurrentTime},
@@ -17,7 +17,9 @@ const userSchema = new Schema({
     followerCount: { type: Number, default: 0 },
     followingCount: { type: Number, default: 0 },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    lastLogin: { type : String },
+    lastUpload: { type : String }
 })
 
 export default model("User", userSchema, "users");

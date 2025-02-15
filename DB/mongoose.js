@@ -1,20 +1,12 @@
 import connect from "../connect/connect.js";
 import Product from '../models/product_schema.js';
 import Other from '../models/other_schema.js'
+import User from "../models/user_schema.js";
 
 connect();
-// title: {type : String, required : true},
-// description : {type : String, required : true},
-// price: {type : Number, required : true},
-// star : {type : String, required : true},
-// review : {type : Number, required : true},
-// discount : {type: Number, required : true},
-// tag : {type : String, required : true},
-// categories : {type : String, required : true},
-// image : {type : String}
 
-await Product.create(
-//     { title: "아보카도", description: "유기농 아보카도 3개입", price: 8700, star: "4.9", review: 678, discount: 25, tag: "BEST", categories: "채소" },
+// await Product.create(
+//     // { title: "아보카도", description: "유기농 아보카도 3개입", price: 8700, star: "4.9", review: 678, discount: 25, tag: "BEST", categories: "채소" },
 //     { title: "바나나", description: "신선한 바나나 5개입", price: 4500, star: "4.8", review: 1205, discount: 15, tag: "NEW", categories: "과일" },
 //     { title: "키위", description: "달콤한 키위 6개입", price: 5500, star: "4.7", review: 987, discount: 10, tag: "SALE", categories: "과일" },
 //     { title: "사과", description: "유기농 사과 6개입", price: 6800, star: "4.9", review: 1543, discount: 20, tag: "BEST", categories: "과일" },
@@ -107,210 +99,109 @@ await Product.create(
 //     { title: "올리브 가루", description: "신선한 올리브 풍미의 가루 100g", price: 2900, star: "4.7", review: 270, discount: 6, tag: "NEW", categories: "양념가루" },
 //     { title: "머스타드 파우더", description: "강한 풍미의 머스타드 가루 150g", price: 3300, star: "4.6", review: 200, discount: 7, tag: "NEW", categories: "양념가루" },
 //     { title: "스테이크 시즈닝", description: "스테이크에 적합한 고급 시즈닝 200g", price: 5600, star: "4.9", review: 520, discount: 15, tag: "BEST", categories: "양념가루" },
-// { title: "찹쌀 2kg", description: "쫀득한 찹쌀 2kg", price: 7500, star: "4.8", review: 400, discount: 12, tag: "HOT", categories: "쌀잡곡계란" },
-// { title: "흑미 1kg", description: "영양 가득한 흑미 1kg", price: 6200, star: "4.6", review: 270, discount: 8, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "보리쌀 1.5kg", description: "담백한 맛의 보리쌀 1.5kg", price: 5600, star: "4.5", review: 210, discount: 9, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "유기농 백미 2kg", description: "유기농 인증을 받은 백미 2kg", price: 8400, star: "4.9", review: 510, discount: 15, tag: "BEST", categories: "쌀잡곡계란" },
-// { title: "적두 1kg", description: "건강한 식단을 위한 적두 1kg", price: 6700, star: "4.7", review: 340, discount: 10, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "귀리 1kg", description: "풍부한 섬유질을 자랑하는 귀리 1kg", price: 5200, star: "4.6", review: 290, discount: 7, tag: "HOT", categories: "쌀잡곡계란" },
-// { title: "유기농 계란 12구", description: "신선한 유기농 계란 12개", price: 5300, star: "4.8", review: 400, discount: 12, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "찹쌀현미 1kg", description: "쫀득한 찹쌀과 고소한 현미의 조화 1kg", price: 7200, star: "4.7", review: 370, discount: 10, tag: "BEST", categories: "쌀잡곡계란" },
-// { title: "녹두 1kg", description: "깨끗하게 선별된 녹두 1kg", price: 5800, star: "4.7", review: 300, discount: 9, tag: "HOT", categories: "쌀잡곡계란" },
-// { title: "강황미 1kg", description: "건강한 강황으로 코팅된 쌀 1kg", price: 8900, star: "4.9", review: 480, discount: 15, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "통밀쌀 1kg", description: "영양이 가득한 통밀쌀 1kg", price: 5700, star: "4.6", review: 240, discount: 8, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "현미찹쌀 혼합 1kg", description: "다양한 영양소를 담은 혼합 곡물 1kg", price: 7600, star: "4.8", review: 450, discount: 11, tag: "HOT", categories: "쌀잡곡계란" },
-// { title: "발아현미 1kg", description: "발아 현미로 더욱 부드럽고 건강하게", price: 6800, star: "4.7", review: 350, discount: 9, tag: "BEST", categories: "쌀잡곡계란" },
-// { title: "칼슘 강화 계란 10구", description: "칼슘을 더한 신선한 계란 10개", price: 4600, star: "4.8", review: 300, discount: 10, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "혼합 잡곡 1kg", description: "다양한 잡곡으로 풍미를 더한 혼합 곡물", price: 7400, star: "4.7", review: 340, discount: 10, tag: "HOT", categories: "쌀잡곡계란" },
-// { title: "유기농 찹쌀 1kg", description: "부드러운 맛과 쫀득한 식감의 유기농 찹쌀", price: 8100, star: "4.9", review: 450, discount: 13, tag: "BEST", categories: "쌀잡곡계란" },
-// { title: "검은콩 1kg", description: "깨끗하고 영양이 풍부한 검은콩 1kg", price: 6900, star: "4.7", review: 320, discount: 9, tag: "HOT", categories: "쌀잡곡계란" },
-// { title: "레드 퀴노아 500g", description: "영양이 가득한 레드 퀴노아 500g", price: 7900, star: "4.8", review: 380, discount: 11, tag: "BEST", categories: "쌀잡곡계란" },
-// { title: "자연 방사 유정란 20구", description: "자연 방사 환경에서 키운 닭의 신선한 유정란 20개", price: 8800, star: "4.9", review: 550, discount: 15, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "찹쌀 2kg", description: "쫀득한 찹쌀 2kg", price: 7500, star: "4.8", review: 400, discount: 12, tag: "SALE", categories: "쌀잡곡계란" },
-// { title: "흑미 1kg", description: "영양 가득한 흑미 1kg", price: 6200, star: "4.6", review: 270, discount: 8, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "보리쌀 1.5kg", description: "담백한 맛의 보리쌀 1.5kg", price: 5600, star: "4.5", review: 210, discount: 9, tag: "SALE", categories: "쌀잡곡계란" },
-// { title: "유기농 백미 2kg", description: "유기농 인증을 받은 백미 2kg", price: 8400, star: "4.9", review: 510, discount: 15, tag: "BEST", categories: "쌀잡곡계란" },
-// { title: "적두 1kg", description: "건강한 식단을 위한 적두 1kg", price: 6700, star: "4.7", review: 340, discount: 10, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "귀리 1kg", description: "풍부한 섬유질을 자랑하는 귀리 1kg", price: 5200, star: "4.6", review: 290, discount: 7, tag: "SALE", categories: "쌀잡곡계란" },
-// { title: "유기농 계란 12구", description: "신선한 유기농 계란 12개", price: 5300, star: "4.8", review: 400, discount: 12, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "찹쌀현미 1kg", description: "쫀득한 찹쌀과 고소한 현미의 조화 1kg", price: 7200, star: "4.7", review: 370, discount: 10, tag: "BEST", categories: "쌀잡곡계란" },
-// { title: "녹두 1kg", description: "깨끗하게 선별된 녹두 1kg", price: 5800, star: "4.7", review: 300, discount: 9, tag: "SALE", categories: "쌀잡곡계란" },
-// { title: "강황미 1kg", description: "건강한 강황으로 코팅된 쌀 1kg", price: 8900, star: "4.9", review: 480, discount: 15, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "통밀쌀 1kg", description: "영양이 가득한 통밀쌀 1kg", price: 5700, star: "4.6", review: 240, discount: 8, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "현미찹쌀 혼합 1kg", description: "다양한 영양소를 담은 혼합 곡물 1kg", price: 7600, star: "4.8", review: 450, discount: 11, tag: "SALE", categories: "쌀잡곡계란" },
-// { title: "발아현미 1kg", description: "발아 현미로 더욱 부드럽고 건강하게", price: 6800, star: "4.7", review: 350, discount: 9, tag: "BEST", categories: "쌀잡곡계란" },
-// { title: "칼슘 강화 계란 10구", description: "칼슘을 더한 신선한 계란 10개", price: 4600, star: "4.8", review: 300, discount: 10, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "혼합 잡곡 1kg", description: "다양한 잡곡으로 풍미를 더한 혼합 곡물", price: 7400, star: "4.7", review: 340, discount: 10, tag: "SALE", categories: "쌀잡곡계란" },
-// { title: "유기농 찹쌀 1kg", description: "부드러운 맛과 쫀득한 식감의 유기농 찹쌀", price: 8100, star: "4.9", review: 450, discount: 13, tag: "BEST", categories: "쌀잡곡계란" },
-// { title: "검은콩 1kg", description: "깨끗하고 영양이 풍부한 검은콩 1kg", price: 6900, star: "4.7", review: 320, discount: 9, tag: "SALE", categories: "쌀잡곡계란" },
-// { title: "레드 퀴노아 500g", description: "영양이 가득한 레드 퀴노아 500g", price: 7900, star: "4.8", review: 380, discount: 11, tag: "BEST", categories: "쌀잡곡계란" },
-// { title: "자연 방사 유정란 20구", description: "자연 방사 환경에서 키운 닭의 신선한 유정란 20개", price: 8800, star: "4.9", review: 550, discount: 15, tag: "NEW", categories: "쌀잡곡계란" },
-// { title: "망고 스무디", description: "달콤한 망고로 만든 상큼한 스무디 350ml", price: 5200, star: "4.9", review: 380, discount: 10, tag: "BEST", categories: "음료" },
-// { title: "오렌지 주스", description: "신선한 오렌지로 착즙한 100% 순수 주스 500ml", price: 4600, star: "4.8", review: 420, discount: 12, tag: "NEW", categories: "음료" },
-// { title: "녹차 라떼", description: "부드럽고 풍미 깊은 녹차 라떼 350ml", price: 4500, star: "4.7", review: 310, discount: 8, tag: "SALE", categories: "음료" },
-// { title: "딸기 스무디", description: "싱싱한 딸기로 만든 달콤한 스무디 300ml", price: 5100, star: "4.9", review: 370, discount: 10, tag: "BEST", categories: "음료" },
-// { title: "콜드브루 커피", description: "풍부한 향을 담은 콜드브루 커피 500ml", price: 5900, star: "4.8", review: 450, discount: 11, tag: "SALE", categories: "음료" },
-// { title: "자몽 에이드", description: "톡 쏘는 자몽의 상큼함을 담은 에이드 400ml", price: 4800, star: "4.7", review: 320, discount: 9, tag: "NEW", categories: "음료" },
-// { title: "허브 티", description: "상쾌하고 건강한 허브 티 300ml", price: 3800, star: "4.6", review: 280, discount: 7, tag: "NEW", categories: "음료" },
-// { title: "카카오 밀크", description: "리치한 초콜릿과 부드러운 우유의 조합 500ml", price: 5500, star: "4.8", review: 360, discount: 12, tag: "SALE", categories: "음료" },
-// { title: "코코넛 워터", description: "순수 코코넛 워터로 몸에 수분 충전 500ml", price: 4900, star: "4.8", review: 310, discount: 9, tag: "BEST", categories: "음료" },
-// { title: "유기농 석류 주스", description: "신선한 석류로 만든 유기농 주스 400ml", price: 6800, star: "4.9", review: 510, discount: 15, tag: "NEW", categories: "음료" },
-// { title: "청포도 에이드", description: "청포도의 깔끔한 단맛을 담은 에이드 450ml", price: 4700, star: "4.7", review: 340, discount: 10, tag: "NEW", categories: "음료" },
-// { title: "아메리카노", description: "향이 깊은 원두로 내린 아메리카노 350ml", price: 3900, star: "4.8", review: 450, discount: 8, tag: "SALE", categories: "음료" },
-// { title: "복숭아 아이스티", description: "달콤하고 향긋한 복숭아 아이스티 400ml", price: 4300, star: "4.7", review: 370, discount: 9, tag: "NEW", categories: "음료" },
-// { title: "레몬차", description: "상큼한 레몬의 맛과 향을 담은 따뜻한 차 300ml", price: 3500, star: "4.6", review: 280, discount: 7, tag: "SALE", categories: "음료" },
-// { title: "밀크티", description: "부드러운 홍차와 우유의 조화 350ml", price: 4500, star: "4.8", review: 320, discount: 10, tag: "BEST", categories: "음료" },
-// { title: "파인애플 주스", description: "달콤한 파인애플로 만든 주스 400ml", price: 5100, star: "4.9", review: 420, discount: 12, tag: "NEW", categories: "음료" },
-// { title: "블랙베리 스무디", description: "풍미 깊은 블랙베리로 만든 스무디 350ml", price: 5300, star: "4.8", review: 350, discount: 11, tag: "NEW", categories: "음료" },
-// { title: "말차 에이드", description: "깔끔한 말차의 맛을 에이드로 즐기기 400ml", price: 4900, star: "4.7", review: 310, discount: 9, tag: "SALE", categories: "음료" },
-// { title: "히비스커스 차", description: "향긋한 히비스커스를 담은 따뜻한 차 300ml", price: 3700, star: "4.6", review: 280, discount: 8, tag: "NEW", categories: "음료" },
-// { title: "탄산수", description: "청량감 가득한 탄산수 500ml", price: 2500, star: "4.5", review: 190, discount: 5, tag: "BEST", categories: "음료" },
-// { title: "유기농 아사이 베리 파우더", description: "아사이 베리를 분말로 만든 슈퍼푸드 100g", price: 15000, star: "4.9", review: 480, discount: 10, tag: "BEST", categories: "건강식품" },
-// { title: "스피루리나 캡슐", description: "천연 스피루리나로 만든 건강 보조제 120정", price: 20000, star: "4.8", review: 390, discount: 15, tag: "NEW", categories: "건강식품" },
-// { title: "차전자피 파우더", description: "식이섬유가 풍부한 차전자피 분말 250g", price: 12000, star: "4.7", review: 320, discount: 8, tag: "HOT", categories: "건강식품" },
-// { title: "콜라겐 젤리", description: "피부 건강을 위한 콜라겐 젤리 스틱 30개입", price: 28000, star: "4.9", review: 570, discount: 12, tag: "BEST", categories: "건강식품" },
-// { title: "프로바이오틱스", description: "장 건강에 좋은 유산균 보충제 60캡슐", price: 25000, star: "4.8", review: 420, discount: 10, tag: "NEW", categories: "건강식품" },
-// { title: "비타민 C 분말", description: "순수 비타민 C로 면역력을 높이는 파우더 200g", price: 18000, star: "4.7", review: 310, discount: 9, tag: "NEW", categories: "건강식품" },
-// { title: "식물성 오메가3", description: "식물성 원료로 만든 오메가3 보충제 60캡슐", price: 22000, star: "4.8", review: 350, discount: 11, tag: "HOT", categories: "건강식품" },
-// { title: "크랜베리 추출물", description: "여성 건강을 위한 크랜베리 보충제 90캡슐", price: 24000, star: "4.9", review: 400, discount: 12, tag: "BEST", categories: "건강식품" },
-// { title: "아연 + 마그네슘", description: "체내 균형을 위한 아연과 마그네슘 보충제 90정", price: 17000, star: "4.6", review: 290, discount: 7, tag: "NEW", categories: "건강식품" },
-// { title: "홍삼 농축액", description: "활력을 높이는 프리미엄 홍삼 농축액 120ml", price: 40000, star: "4.9", review: 580, discount: 15, tag: "HOT", categories: "건강식품" },
-// { title: "밀크 시슬 캡슐", description: "간 건강에 좋은 밀크 시슬 보충제 90캡슐", price: 23000, star: "4.7", review: 330, discount: 9, tag: "BEST", categories: "건강식품" },
-// { title: "루테인 플러스", description: "눈 건강을 위한 루테인 보충제 60정", price: 27000, star: "4.8", review: 400, discount: 10, tag: "HOT", categories: "건강식품" },
-// { title: "아사이베리 캡슐", description: "항산화 효과를 위한 아사이베리 추출 캡슐 60정", price: 21000, star: "4.7", review: 310, discount: 8, tag: "NEW", categories: "건강식품" },
-// { title: "유기농 마카 파우더", description: "자연에서 온 에너지 부스터 마카 파우더 150g", price: 19000, star: "4.8", review: 350, discount: 11, tag: "BEST", categories: "건강식품" },
-// { title: "체리 추출물", description: "숙면을 도와주는 체리 추출 보충제 90캡슐", price: 22000, star: "4.9", review: 390, discount: 12, tag: "NEW", categories: "건강식품" },
-// { title: "감초차", description: "몸을 따뜻하게 해주는 감초차 30티백", price: 12000, star: "4.6", review: 250, discount: 8, tag: "HOT", categories: "건강식품" },
-// { title: "홍국 쌀 추출물", description: "콜레스테롤 개선에 도움을 주는 홍국 추출물 60캡슐", price: 20000, star: "4.8", review: 340, discount: 10, tag: "NEW", categories: "건강식품" },
-// { title: "마누카 꿀", description: "항균 작용이 뛰어난 마누카 꿀 250g", price: 35000, star: "4.9", review: 500, discount: 15, tag: "BEST", categories: "건강식품" },
-// { title: "유기농 퀴노아", description: "영양이 풍부한 유기농 퀴노아 1kg", price: 18000, star: "4.7", review: 300, discount: 8, tag: "NEW", categories: "건강식품" },
-// { title: "고구마 가루", description: "건강 간식으로 좋은 고구마 가루 300g", price: 15000, star: "4.8", review: 280, discount: 10, tag: "HOT", categories: "건강식품" }
-    // { title: "아보카도", description: "유기농 아보카도 3개입", price: 8700, star: "4.9", review: 678, discount: 25, tag: "BEST", categories: "채소" },
-    // { title: "청경채", description: "신선한 유기농 청경채 500g", price: 5500, star: "4.8", review: 350, discount: 10, tag: "NEW", categories: "채소" },
-    // { title: "오이", description: "아삭한 유기농 오이 5개입", price: 4000, star: "4.7", review: 270, discount: 15, tag: "NEW", categories: "채소" },
-    // { title: "가지", description: "고소한 유기농 가지 4개입", price: 5000, star: "4.6", review: 230, discount: 12, tag: "SALE", categories: "채소" },
-    // { title: "상추", description: "신선한 유기농 상추 200g", price: 3000, star: "4.9", review: 540, discount: 18, tag: "BEST", categories: "채소" },
-    // { title: "토마토", description: "맛있는 유기농 토마토 6개입", price: 7000, star: "4.8", review: 420, discount: 20, tag: "SALE", categories: "채소" },
-    // { title: "브로콜리", description: "신선한 유기농 브로콜리 1개", price: 6000, star: "4.7", review: 310, discount: 15, tag: "NEW", categories: "채소" },
-    // { title: "당근", description: "달콤한 유기농 당근 5개입", price: 4500, star: "4.6", review: 200, discount: 10, tag: "BEST", categories: "채소" },
-    // { title: "파프리카", description: "상큼한 유기농 파프리카 2개입", price: 5500, star: "4.9", review: 500, discount: 8, tag: "SALE", categories: "채소" },
-    // { title: "시금치", description: "영양가 풍부한 유기농 시금치 300g", price: 4000, star: "4.7", review: 290, discount: 10, tag: "NEW", categories: "채소" }
-    // { title: "피스타치오", description: "고소한 피스타치오 150g", price: 8000, star: "4.8", review: 450, discount: 15, tag: "BEST", categories: "간식과일견과" },
-    // { title: "호두", description: "영양이 풍부한 호두 250g", price: 7000, star: "4.9", review: 320, discount: 10, tag: "BEST", categories: "간식과일견과" },
-    // { title: "해바라기 씨", description: "고소한 해바라기 씨 200g", price: 4000, star: "4.6", review: 250, discount: 8, tag: "BEST", categories: "간식과일견과" },
-    // { title: "캐슈넛", description: "부드러운 캐슈넛 200g", price: 6500, star: "4.8", review: 380, discount: 12, tag: "BEST", categories: "간식과일견과" },
-    // { title: "마카다미아", description: "고급스러운 마카다미아 150g", price: 9500, star: "4.9", review: 500, discount: 10, tag: "BEST", categories: "간식과일견과" },
-    // { title: "잣", description: "영양 가득 잣 180g", price: 7200, star: "4.7", review: 410, discount: 9, tag: "BEST", categories: "간식과일견과" }
-    // { title: "카레", description: "맛있는 카레와 밥이 함께 들어있는 간편식", price: 6500, star: "4.9", review: 760, discount: 10, tag: "BEST", categories: "간편식" },
-    // { title: "불고기 비빔밥", description: "불고기와 밥이 함께 들어있는 간편식", price: 7000, star: "4.8", review: 650, discount: 12, tag: "BEST", categories: "간편식" },
-    // { title: "김치 볶음밥", description: "매콤한 김치와 밥이 함께 들어있는 간편식", price: 5500, star: "4.7", review: 500, discount: 8, tag: "BEST", categories: "간편식" },
-    // { title: "된장찌개", description: "고소한 된장찌개와 밥이 함께 들어있는 간편식", price: 6000, star: "4.9", review: 580, discount: 10, tag: "BEST", categories: "간편식" },
-    // { title: "닭갈비", description: "매콤한 닭갈비와 밥이 함께 들어있는 간편식", price: 7500, star: "4.8", review: 450, discount: 12, tag: "BEST", categories: "간편식" },
-    // { title: "떡볶이", description: "매운 떡볶이가 들어있는 간편식", price: 5000, star: "4.6", review: 400, discount: 5, tag: "BEST", categories: "간편식" },
-    // { title: "오므라이스", description: "부드러운 오므라이스와 밥이 함께 들어있는 간편식", price: 6500, star: "4.7", review: 350, discount: 10, tag: "BEST", categories: "간편식" }
-    // { title: "비타민D 60정", description: "고함량 비타민D 건강 보조제 60정", price: 25000, star: "4.8", review: 399, discount: 20, tag: "SALE", categories: "건강식품" },
-    // { title: "칼슘 120정", description: "크기가 작은 칼슘 건강 보조제 120정", price: 30000, star: "4.9", review: 999, discount: 10, tag: "SALE", categories: "건강식품" },
-    // { title: "오메가3 60정", description: "신선한 오메가3 60정", price: 27500, star: "4.8", review: 566, discount: 25, tag: "SALE", categories: "건강식품" },
-)
-// await Product.deleteOne({title : "강황미 1kg"})
+//     { title: "찹쌀 2kg", description: "쫀득한 찹쌀 2kg", price: 7500, star: "4.8", review: 400, discount: 12, tag: "HOT", categories: "쌀잡곡계란" },
+//     { title: "흑미 1kg", description: "영양 가득한 흑미 1kg", price: 6200, star: "4.6", review: 270, discount: 8, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "보리쌀 1.5kg", description: "담백한 맛의 보리쌀 1.5kg", price: 5600, star: "4.5", review: 210, discount: 9, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "유기농 백미 2kg", description: "유기농 인증을 받은 백미 2kg", price: 8400, star: "4.9", review: 510, discount: 15, tag: "BEST", categories: "쌀잡곡계란" },
+//     { title: "적두 1kg", description: "건강한 식단을 위한 적두 1kg", price: 6700, star: "4.7", review: 340, discount: 10, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "귀리 1kg", description: "풍부한 섬유질을 자랑하는 귀리 1kg", price: 5200, star: "4.6", review: 290, discount: 7, tag: "HOT", categories: "쌀잡곡계란" },
+//     { title: "유기농 계란 12구", description: "신선한 유기농 계란 12개", price: 5300, star: "4.8", review: 400, discount: 12, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "찹쌀현미 1kg", description: "쫀득한 찹쌀과 고소한 현미의 조화 1kg", price: 7200, star: "4.7", review: 370, discount: 10, tag: "BEST", categories: "쌀잡곡계란" },
+//     { title: "녹두 1kg", description: "깨끗하게 선별된 녹두 1kg", price: 5800, star: "4.7", review: 300, discount: 9, tag: "HOT", categories: "쌀잡곡계란" },
+//     { title: "강황미 1kg", description: "건강한 강황으로 코팅된 쌀 1kg", price: 8900, star: "4.9", review: 480, discount: 15, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "통밀쌀 1kg", description: "영양이 가득한 통밀쌀 1kg", price: 5700, star: "4.6", review: 240, discount: 8, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "현미찹쌀 혼합 1kg", description: "다양한 영양소를 담은 혼합 곡물 1kg", price: 7600, star: "4.8", review: 450, discount: 11, tag: "HOT", categories: "쌀잡곡계란" },
+//     { title: "발아현미 1kg", description: "발아 현미로 더욱 부드럽고 건강하게", price: 6800, star: "4.7", review: 350, discount: 9, tag: "BEST", categories: "쌀잡곡계란" },
+//     { title: "칼슘 강화 계란 10구", description: "칼슘을 더한 신선한 계란 10개", price: 4600, star: "4.8", review: 300, discount: 10, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "혼합 잡곡 1kg", description: "다양한 잡곡으로 풍미를 더한 혼합 곡물", price: 7400, star: "4.7", review: 340, discount: 10, tag: "HOT", categories: "쌀잡곡계란" },
+//     { title: "유기농 찹쌀 1kg", description: "부드러운 맛과 쫀득한 식감의 유기농 찹쌀", price: 8100, star: "4.9", review: 450, discount: 13, tag: "BEST", categories: "쌀잡곡계란" },
+//     { title: "검은콩 1kg", description: "깨끗하고 영양이 풍부한 검은콩 1kg", price: 6900, star: "4.7", review: 320, discount: 9, tag: "HOT", categories: "쌀잡곡계란" },
+//     { title: "레드 퀴노아 500g", description: "영양이 가득한 레드 퀴노아 500g", price: 7900, star: "4.8", review: 380, discount: 11, tag: "BEST", categories: "쌀잡곡계란" },
+//     { title: "자연 방사 유정란 20구", description: "자연 방사 환경에서 키운 닭의 신선한 유정란 20개", price: 8800, star: "4.9", review: 550, discount: 15, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "찹쌀 2kg", description: "쫀득한 찹쌀 2kg", price: 7500, star: "4.8", review: 400, discount: 12, tag: "SALE", categories: "쌀잡곡계란" },
+//     { title: "흑미 1kg", description: "영양 가득한 흑미 1kg", price: 6200, star: "4.6", review: 270, discount: 8, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "보리쌀 1.5kg", description: "담백한 맛의 보리쌀 1.5kg", price: 5600, star: "4.5", review: 210, discount: 9, tag: "SALE", categories: "쌀잡곡계란" },
+//     { title: "유기농 백미 2kg", description: "유기농 인증을 받은 백미 2kg", price: 8400, star: "4.9", review: 510, discount: 15, tag: "BEST", categories: "쌀잡곡계란" },
+//     { title: "적두 1kg", description: "건강한 식단을 위한 적두 1kg", price: 6700, star: "4.7", review: 340, discount: 10, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "귀리 1kg", description: "풍부한 섬유질을 자랑하는 귀리 1kg", price: 5200, star: "4.6", review: 290, discount: 7, tag: "SALE", categories: "쌀잡곡계란" },
+//     { title: "유기농 계란 12구", description: "신선한 유기농 계란 12개", price: 5300, star: "4.8", review: 400, discount: 12, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "찹쌀현미 1kg", description: "쫀득한 찹쌀과 고소한 현미의 조화 1kg", price: 7200, star: "4.7", review: 370, discount: 10, tag: "BEST", categories: "쌀잡곡계란" },
+//     { title: "녹두 1kg", description: "깨끗하게 선별된 녹두 1kg", price: 5800, star: "4.7", review: 300, discount: 9, tag: "SALE", categories: "쌀잡곡계란" },
+//     { title: "강황미 1kg", description: "건강한 강황으로 코팅된 쌀 1kg", price: 8900, star: "4.9", review: 480, discount: 15, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "통밀쌀 1kg", description: "영양이 가득한 통밀쌀 1kg", price: 5700, star: "4.6", review: 240, discount: 8, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "현미찹쌀 혼합 1kg", description: "다양한 영양소를 담은 혼합 곡물 1kg", price: 7600, star: "4.8", review: 450, discount: 11, tag: "SALE", categories: "쌀잡곡계란" },
+//     { title: "발아현미 1kg", description: "발아 현미로 더욱 부드럽고 건강하게", price: 6800, star: "4.7", review: 350, discount: 9, tag: "BEST", categories: "쌀잡곡계란" },
+//     { title: "칼슘 강화 계란 10구", description: "칼슘을 더한 신선한 계란 10개", price: 4600, star: "4.8", review: 300, discount: 10, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "혼합 잡곡 1kg", description: "다양한 잡곡으로 풍미를 더한 혼합 곡물", price: 7400, star: "4.7", review: 340, discount: 10, tag: "SALE", categories: "쌀잡곡계란" },
+//     { title: "유기농 찹쌀 1kg", description: "부드러운 맛과 쫀득한 식감의 유기농 찹쌀", price: 8100, star: "4.9", review: 450, discount: 13, tag: "BEST", categories: "쌀잡곡계란" },
+//     { title: "검은콩 1kg", description: "깨끗하고 영양이 풍부한 검은콩 1kg", price: 6900, star: "4.7", review: 320, discount: 9, tag: "SALE", categories: "쌀잡곡계란" },
+//     { title: "레드 퀴노아 500g", description: "영양이 가득한 레드 퀴노아 500g", price: 7900, star: "4.8", review: 380, discount: 11, tag: "BEST", categories: "쌀잡곡계란" },
+//     { title: "자연 방사 유정란 20구", description: "자연 방사 환경에서 키운 닭의 신선한 유정란 20개", price: 8800, star: "4.9", review: 550, discount: 15, tag: "NEW", categories: "쌀잡곡계란" },
+//     { title: "망고 스무디", description: "달콤한 망고로 만든 상큼한 스무디 350ml", price: 5200, star: "4.9", review: 380, discount: 10, tag: "BEST", categories: "음료" },
+//     { title: "오렌지 주스", description: "신선한 오렌지로 착즙한 100% 순수 주스 500ml", price: 4600, star: "4.8", review: 420, discount: 12, tag: "NEW", categories: "음료" },
+//     { title: "녹차 라떼", description: "부드럽고 풍미 깊은 녹차 라떼 350ml", price: 4500, star: "4.7", review: 310, discount: 8, tag: "SALE", categories: "음료" },
+//     { title: "딸기 스무디", description: "싱싱한 딸기로 만든 달콤한 스무디 300ml", price: 5100, star: "4.9", review: 370, discount: 10, tag: "BEST", categories: "음료" },
+//     { title: "콜드브루 커피", description: "풍부한 향을 담은 콜드브루 커피 500ml", price: 5900, star: "4.8", review: 450, discount: 11, tag: "SALE", categories: "음료" },
+//     { title: "자몽 에이드", description: "톡 쏘는 자몽의 상큼함을 담은 에이드 400ml", price: 4800, star: "4.7", review: 320, discount: 9, tag: "NEW", categories: "음료" },
+//     { title: "허브 티", description: "상쾌하고 건강한 허브 티 300ml", price: 3800, star: "4.6", review: 280, discount: 7, tag: "NEW", categories: "음료" },
+//     { title: "카카오 밀크", description: "리치한 초콜릿과 부드러운 우유의 조합 500ml", price: 5500, star: "4.8", review: 360, discount: 12, tag: "SALE", categories: "음료" },
+//     { title: "코코넛 워터", description: "순수 코코넛 워터로 몸에 수분 충전 500ml", price: 4900, star: "4.8", review: 310, discount: 9, tag: "BEST", categories: "음료" },
+//     { title: "유기농 석류 주스", description: "신선한 석류로 만든 유기농 주스 400ml", price: 6800, star: "4.9", review: 510, discount: 15, tag: "NEW", categories: "음료" },
+//     { title: "청포도 에이드", description: "청포도의 깔끔한 단맛을 담은 에이드 450ml", price: 4700, star: "4.7", review: 340, discount: 10, tag: "NEW", categories: "음료" },
+//     { title: "아메리카노", description: "향이 깊은 원두로 내린 아메리카노 350ml", price: 3900, star: "4.8", review: 450, discount: 8, tag: "SALE", categories: "음료" },
+//     { title: "복숭아 아이스티", description: "달콤하고 향긋한 복숭아 아이스티 400ml", price: 4300, star: "4.7", review: 370, discount: 9, tag: "NEW", categories: "음료" },
+//     { title: "레몬차", description: "상큼한 레몬의 맛과 향을 담은 따뜻한 차 300ml", price: 3500, star: "4.6", review: 280, discount: 7, tag: "SALE", categories: "음료" },
+//     { title: "밀크티", description: "부드러운 홍차와 우유의 조화 350ml", price: 4500, star: "4.8", review: 320, discount: 10, tag: "BEST", categories: "음료" },
+//     { title: "파인애플 주스", description: "달콤한 파인애플로 만든 주스 400ml", price: 5100, star: "4.9", review: 420, discount: 12, tag: "NEW", categories: "음료" },
+//     { title: "블랙베리 스무디", description: "풍미 깊은 블랙베리로 만든 스무디 350ml", price: 5300, star: "4.8", review: 350, discount: 11, tag: "NEW", categories: "음료" },
+//     { title: "말차 에이드", description: "깔끔한 말차의 맛을 에이드로 즐기기 400ml", price: 4900, star: "4.7", review: 310, discount: 9, tag: "SALE", categories: "음료" },
+//     { title: "히비스커스 차", description: "향긋한 히비스커스를 담은 따뜻한 차 300ml", price: 3700, star: "4.6", review: 280, discount: 8, tag: "NEW", categories: "음료" },
+//     { title: "탄산수", description: "청량감 가득한 탄산수 500ml", price: 2500, star: "4.5", review: 190, discount: 5, tag: "BEST", categories: "음료" },
+//     { title: "유기농 아사이 베리 파우더", description: "아사이 베리를 분말로 만든 슈퍼푸드 100g", price: 15000, star: "4.9", review: 480, discount: 10, tag: "BEST", categories: "건강식품" },
+//     { title: "스피루리나 캡슐", description: "천연 스피루리나로 만든 건강 보조제 120정", price: 20000, star: "4.8", review: 390, discount: 15, tag: "NEW", categories: "건강식품" },
+//     { title: "차전자피 파우더", description: "식이섬유가 풍부한 차전자피 분말 250g", price: 12000, star: "4.7", review: 320, discount: 8, tag: "HOT", categories: "건강식품" },
+//     { title: "콜라겐 젤리", description: "피부 건강을 위한 콜라겐 젤리 스틱 30개입", price: 28000, star: "4.9", review: 570, discount: 12, tag: "BEST", categories: "건강식품" },
+//     { title: "프로바이오틱스", description: "장 건강에 좋은 유산균 보충제 60캡슐", price: 25000, star: "4.8", review: 420, discount: 10, tag: "NEW", categories: "건강식품" },
+//     { title: "비타민 C 분말", description: "순수 비타민 C로 면역력을 높이는 파우더 200g", price: 18000, star: "4.7", review: 310, discount: 9, tag: "NEW", categories: "건강식품" },
+//     { title: "식물성 오메가3", description: "식물성 원료로 만든 오메가3 보충제 60캡슐", price: 22000, star: "4.8", review: 350, discount: 11, tag: "HOT", categories: "건강식품" },
+//     { title: "크랜베리 추출물", description: "여성 건강을 위한 크랜베리 보충제 90캡슐", price: 24000, star: "4.9", review: 400, discount: 12, tag: "BEST", categories: "건강식품" },
+//     { title: "아연 + 마그네슘", description: "체내 균형을 위한 아연과 마그네슘 보충제 90정", price: 17000, star: "4.6", review: 290, discount: 7, tag: "NEW", categories: "건강식품" },
+//     { title: "홍삼 농축액", description: "활력을 높이는 프리미엄 홍삼 농축액 120ml", price: 40000, star: "4.9", review: 580, discount: 15, tag: "HOT", categories: "건강식품" },
+//     { title: "밀크 시슬 캡슐", description: "간 건강에 좋은 밀크 시슬 보충제 90캡슐", price: 23000, star: "4.7", review: 330, discount: 9, tag: "BEST", categories: "건강식품" },
+//     { title: "루테인 플러스", description: "눈 건강을 위한 루테인 보충제 60정", price: 27000, star: "4.8", review: 400, discount: 10, tag: "HOT", categories: "건강식품" },
+//     { title: "아사이베리 캡슐", description: "항산화 효과를 위한 아사이베리 추출 캡슐 60정", price: 21000, star: "4.7", review: 310, discount: 8, tag: "NEW", categories: "건강식품" },
+//     { title: "유기농 마카 파우더", description: "자연에서 온 에너지 부스터 마카 파우더 150g", price: 19000, star: "4.8", review: 350, discount: 11, tag: "BEST", categories: "건강식품" },
+//     { title: "체리 추출물", description: "숙면을 도와주는 체리 추출 보충제 90캡슐", price: 22000, star: "4.9", review: 390, discount: 12, tag: "NEW", categories: "건강식품" },
+//     { title: "감초차", description: "몸을 따뜻하게 해주는 감초차 30티백", price: 12000, star: "4.6", review: 250, discount: 8, tag: "HOT", categories: "건강식품" },
+//     { title: "홍국 쌀 추출물", description: "콜레스테롤 개선에 도움을 주는 홍국 추출물 60캡슐", price: 20000, star: "4.8", review: 340, discount: 10, tag: "NEW", categories: "건강식품" },
+//     { title: "마누카 꿀", description: "항균 작용이 뛰어난 마누카 꿀 250g", price: 35000, star: "4.9", review: 500, discount: 15, tag: "BEST", categories: "건강식품" },
+//     { title: "유기농 퀴노아", description: "영양이 풍부한 유기농 퀴노아 1kg", price: 18000, star: "4.7", review: 300, discount: 8, tag: "NEW", categories: "건강식품" },
+//     { title: "고구마 가루", description: "건강 간식으로 좋은 고구마 가루 300g", price: 15000, star: "4.8", review: 280, discount: 10, tag: "HOT", categories: "건강식품" }
+// );
 
-await Other.create( {
-    title: "수세미",
-    description: "친환경 수세미 3개입",
-    price: 3200,
-    star: "4.8",
-    review: 245,
-    discount: 15,
-    tag: "SALE",
-    categories: "주방용품"
-},
-{
-    title: "비건 주방세제",
-    description: "식물성 원료로 만든 친환경 비건 주방세제 500ml",
-    price: 5600,
-    star: "4.7",
-    review: 512,
-    discount: 20,
-    tag: "NEW",
-    categories: "주방용품"
-},
-{
-    title: "대나무 칫솔",
-    description: "100% 생분해성 대나무 칫솔 4개입",
-    price: 8900,
-    star: "4.9",
-    review: 893,
-    discount: 10,
-    tag: "BEST",
-    categories: "욕실용품"
-},
-{
-    title: "천연 면생리대",
-    description: "세탁 가능한 천연 소재 면생리대 3개입",
-    price: 12000,
-    star: "4.8",
-    review: 678,
-    discount: 15,
-    tag: "BEST",
-    categories: "위생용품"
-},
-{
-    title: "재사용 가능 비닐백",
-    description: "식품 보관용 재사용 실리콘 비닐백 5개입",
-    price: 16500,
-    star: "4.7",
-    review: 312,
-    discount: 20,
-    tag: "NEW",
-    categories: "주방용품"
-},
-{
-    title: "비건 화장품 세트",
-    description: "동물 실험 없는 비건 화장품 5종 세트",
-    price: 39000,
-    star: "4.9",
-    review: 1045,
-    discount: 18,
-    tag: "SALE",
-    categories: "화장품"
-},
-{
-    title: "천연 라텍스 베개",
-    description: "친환경 천연 라텍스로 만든 숙면 베개",
-    price: 27000,
-    star: "4.8",
-    review: 789,
-    discount: 12,
-    tag: "BEST",
-    categories: "침구류"
-},
-{
-    title: "친환경 노트북 가방",
-    description: "재활용 소재로 만든 노트북 가방",
-    price: 45000,
-    star: "4.7",
-    review: 612,
-    discount: 22,
-    tag: "NEW",
-    categories: "가방"
-},
-{
-    title: "비건 립밤",
-    description: "천연 성분으로 만든 비건 립밤 15g",
-    price: 8500,
-    star: "4.9",
-    review: 346,
-    discount: 10,
-    tag: "SALE",
-    categories: "화장품"
-},
-{
-    title: "비건 양초",
-    description: "콩 왁스를 사용한 비건 아로마 양초 200g",
-    price: 18000,
-    star: "4.8",
-    review: 278,
-    discount: 15,
-    tag: "SALE",
-    categories: "인테리어"
-})
+
+const addFollowing = async () => {
+    try {
+        // email이 cyaein@gmail.com인 유저를 찾음
+        const user = await User.findOne({ email: '@gmail.com' });
+
+        if (!user) {
+            console.log("유저를 찾을 수 없습니다.");
+            return;
+        }
+
+        // following 배열에 새로운 유저 ID 추가
+        const userIdToFollow = '67935b8d3f9b07e01ab2392b';
+        if (!user.following.includes(userIdToFollow)) {
+            user.following.push(userIdToFollow);
+            await user.save(); // 변경 사항 저장
+            console.log('성공적으로 팔로잉을 추가했습니다.');
+        } else {
+            console.log('이미 해당 유저를 팔로우하고 있습니다.');
+        }
+    } catch (error) {
+        console.error('에러 발생:', error);
+    }
+};
+
+addFollowing();
