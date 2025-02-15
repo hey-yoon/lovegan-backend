@@ -217,6 +217,7 @@ const sendVerificationCode = async (req, res) => {
     try {
         // 인증 코드 생성 및 저장
         const verificationCode = generateVerificationCode(phoneNumber);
+        console.log("인증번호 저장 : ", verificationCode)
 
         // 메시지 구성
         const message = {
@@ -295,6 +296,7 @@ const verifyCode = async (req, res) => {
 };
 // 회원가입할 때 인증번호 인증
 const signupVerifyCode = async (req, res) => {
+    console.log("요청받은 데이터 : ", req.body)
     const { phoneNumber, code } = req.body;
     console.log("verifyCode 함수: " + phoneNumber);
     console.log("verifyCode 함수: " + code);
@@ -311,7 +313,7 @@ const signupVerifyCode = async (req, res) => {
             return res.status(400).json({ success: false, message: "인증 코드가 존재하지 않습니다." });
         }
 
-        if (storedData.code !== code) {
+        if (String(storedData).trim() !== String(code).trim()) {
             return res.status(400).json({ success: false, message: "인증 코드가 올바르지 않습니다." });
         }
 
