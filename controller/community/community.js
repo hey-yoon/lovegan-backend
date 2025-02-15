@@ -23,7 +23,9 @@ const getPostById = async (req, res) => {
         const { id } = req.params;
         console.log(req.params);
 
-        const posts = await Post.findById(id).lean()
+        const posts = await Post.findById(id)
+        .populate('author')
+        .lean()
         console.log(posts)
 
         if(!posts) return res.status(404).json({ message : "게시글을 찾을 수 없습니다." });
@@ -57,7 +59,10 @@ const getPostById = async (req, res) => {
 // 댓글 조회
 const getComment = async (req, res) => {
     try {
-        const comments = await Comment.find().lean()
+        const comments = await Comment.find()
+        .populate('post')
+        .populate('user')
+        .lean()
         const commentCount = comments.length;
         console.log(comments)
         // console.log(commentCount);
@@ -71,22 +76,21 @@ const getComment = async (req, res) => {
 // 댓글 추가
 const addComment = async (req, res) => {
     try {
-        const {content, post} = req.body;
+        const {content, postId, userId} = req.body;
         console.log(req.body)
         
-        if (!content || !post) {
-            return res.status(400).json({ message: "내용과 postId는 필수입니다." });
+        if (!content || !postId || !userId) {
+            return res.status(400).json({ message: "내용은 필수입니다." });
         }
 
         const addNewComment = new Comment({
+            user : userId,
+            // : comment.user.nickname,
             content, // 댓글 내용
-            post : req.body.post,
+            post : postId,
             createAt: new Date(),
             updatedAt: new Date(),
         });
-
-        // const comments = await Comment.find().lean();
-        // console.log(comments);
 
         await addNewComment.save();
 

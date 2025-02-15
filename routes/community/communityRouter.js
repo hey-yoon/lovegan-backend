@@ -16,7 +16,7 @@ communityRouter.get("/getPostById/:id", getPostById);
 // communityRouter.get("/getPostDetailById/:id", getPostDetailById);
 
 // 댓글 가져오기 -> 특정 게시물의 댓글들 / 몽고디비에 있는 댓글들 불러오기
-communityRouter.get("/getComment", getComment);
+communityRouter.get("/getComment/:id", getComment);
 
 // 댓글 추가하기 -> 몽고디비에 저장
 communityRouter.post("/addComment", addComment);
