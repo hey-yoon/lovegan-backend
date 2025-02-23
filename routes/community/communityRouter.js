@@ -21,6 +21,9 @@ communityRouter.get("/getComment/:id", getComment);
 // 댓글 추가하기 -> 몽고디비에 저장
 communityRouter.post("/addComment", addComment);
 
+// 대댓글 조회하기
+// communityRouter.get("/getApply", getApply);
+
 // 대댓글 추가하기 -> 특정 댓글들에 대댓글 달기(몽고디비에 추가, 저장 될 수 있도록)
 communityRouter.post("/addReply", addReply);
 
