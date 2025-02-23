@@ -334,4 +334,112 @@ const getMyFollowing = async (req, res) => {
     }
 };
 
-export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode, getMyFollowing }
+// 내 팔로잉 조회
+const getMyFollowers = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ success: false, message: '이메일이 필요합니다.' });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ success: false, message: '사용자를 찾을 수 없습니다.' });
+        }
+
+        let myFollowers = [];
+
+        if (user.followers.length === 0) {
+            return res.status(200).json({
+                success: true,
+                message: '팔로워가 없습니다.',
+                myFollowers: [],
+            });
+        }
+
+        for (let i = 0; i < user.followers.length; i++) {
+            let followerUser = await User.findOne({ _id: user.followers[i]._id });
+            myFollowers.push(followerUser);
+        }
+
+        return res.status(200).json({
+            success: true,
+            myFollowers,
+        });
+
+    } catch (error) {
+        console.error('Error fetching followers:', error);
+        return res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });
+    }
+};
+
+// 팔로우 상태 조회
+const followStatus = async (req, res) => {
+    try {
+        const { userId, targetUserId } = req.body;
+
+        if (!userId || !targetUserId) {
+            return res.status(400).json({ success: false, message: "userId와 targetUserId가 필요합니다." });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "사용자를 찾을 수 없습니다." });
+        }
+
+        const isFollowing = user.following.includes(targetUserId);
+        res.json({ success: true, isFollowing });
+
+    } catch (error) {
+        console.error('팔로우 상태 확인 중 오류 발생:', error);
+        res.status(500).json({ success: false, message: "서버 오류 발생" });
+    }
+}
+
+const toggleFollow = async (req, res) => {
+    try {
+        const { userId, targetUserId } = req.body;
+
+        if (!userId || !targetUserId) {
+            return res.status(400).json({ success: false, message: "userId와 targetUserId가 필요합니다." });
+        }
+
+        const user = await User.findById(userId);
+        const targetUser = await User.findById(targetUserId);
+
+        if (!user || !targetUser) {
+            return res.status(404).json({ success: false, message: "사용자를 찾을 수 없습니다." });
+        }
+
+        const isFollowing = user.following.includes(targetUserId);
+
+        if (isFollowing) {
+            // 언팔로우 (리스트에서 제거)
+            user.following = user.following.filter(id => id != targetUserId);
+            targetUser.followers = targetUser.followers.filter(id => id != userId);
+            if (user.followingCount != 0){
+                user.followingCount -= 1;
+            }
+            if (targetUser.followerCount != 0){
+                targetUser.followerCount -= 1;
+            }
+        } else {
+            // 팔로우 (리스트에 추가)
+            user.following.push(targetUserId);
+            targetUser.followers.push(userId);
+            user.followingCount += 1;
+            targetUser.followerCount += 1;
+        }
+
+        await user.save();
+        await targetUser.save();
+
+        res.json({ success: true, isFollowing: !isFollowing });
+
+    } catch (error) {
+        console.error('팔로우 토글 중 오류 발생:', error);
+        res.status(500).json({ success: false, message: "서버 오류 발생" });
+    }
+}
+
+export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode, getMyFollowing, getMyFollowers, followStatus, toggleFollow }

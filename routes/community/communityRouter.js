@@ -1,5 +1,5 @@
 import express from "express";
-import { addComment, addReply, getComment, getMyPosts, getPost, getPostById } from "../../controller/community/community.js";
+import { addComment, addReply, getComment, getMyPosts, getMyScraps, getPost, getPostById, scrapDelete, scrapPost } from "../../controller/community/community.js";
 
 const communityRouter = express.Router();
 
@@ -25,6 +25,13 @@ communityRouter.post("/addComment", addComment);
 communityRouter.post("/addReply", addReply);
 
 // 내 게시물 가져오기
-communityRouter.post("/getMyPosts", getMyPosts)
+communityRouter.post("/getMyPosts", getMyPosts);
+
+// 내가 스크랩한 게시물 가져오기
+communityRouter.post("/getMyScraps", getMyScraps);
+
+// 게시물 스크랩 추가하기/삭제하기
+communityRouter.post("/scrap", scrapPost);
+communityRouter.post("/scrap", scrapDelete);
 
 export default communityRouter;
