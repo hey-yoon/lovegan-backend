@@ -209,9 +209,10 @@ const generateVerificationCode = (phoneNumber) => {
  * 휴대폰 번호로 인증 코드 전송
  */
 const sendVerificationCode = async (req, res) => {
-    const { phoneNumber } = req.body;
+    const { phoneNumber, email } = req.body;
+    console.log(req.body);
     if (!phoneNumber) {
-        return res.status(400).json({ success: false, message: "휴대폰 번호를 제공해야 합니다." });
+        return res.status(400).json({ success: false, message: "휴대폰 번호를 제공해야 합니다.", email : req.body.email });
     }
 
     try {
@@ -233,7 +234,7 @@ const sendVerificationCode = async (req, res) => {
 
         // 문자 전송
         await messageService.sendOne(message);
-        res.status(200).json({ success: true, message: "인증번호가 전송되었습니다." });
+        res.status(200).json({ success: true, message: "인증번호가 전송되었습니다.", email: req.body.email });
     } catch (error) {
         console.error("문자 전송 오류:", error);
         res.status(500).json({ success: false, message: "문자 전송에 실패했습니다." });
@@ -328,6 +329,18 @@ const signupVerifyCode = async (req, res) => {
     }
 }
 
+const findPhoneNumber = async (req, res) => {
+    console.log("아이디찾기 데이터 : ", req.body);
+    const user = await User.findOne({phone : req.body.phoneNumber});
+    console.log(user.email)
+    if(!user){
+        return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+    }
+    else{
+        return res.status(200).json({success : true, message : "아이디 찾기 성공", email : user.email})
+    }
+}
+
 // 내 팔로잉 조회
 const getMyFollowing = async (req, res) => {
     try {
@@ -367,4 +380,4 @@ const getMyFollowing = async (req, res) => {
     }
 };
 
-export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode, getMyFollowing, signupVerifyCode }
+export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode, getMyFollowing, signupVerifyCode, findPhoneNumber }
