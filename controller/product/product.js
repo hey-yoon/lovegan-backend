@@ -1,16 +1,17 @@
 import ProductPhoto from '../../models/productPhoto_schema.js';
 import Product from '../../models/product_schema.js'
 
+// 상품추가 함수
 const addPhoto = async () => {
      try {
-         const product = await Product.findOne({ title: "강황미 1kg" });
+         const product = await Product.findOne({ title: "아연 + 마그네슘" });
          if (!product) throw new Error("상품 없음");
  
          console.log("찾은 상품:", product); // 확인용 로그
  
          const photo = await ProductPhoto.create({
              product: product._id, // 필드명 확인
-             url: "https://lovegan-photo-bucket.s3.ap-northeast-2.amazonaws.com/yellow+meal.jpg"
+             url: "https://lovegan-photo-bucket.s3.ap-northeast-2.amazonaws.com/%E1%84%8B%E1%85%A1%E1%84%8B%E1%85%A7%E1%86%AB+%E1%84%86%E1%85%A1%E1%84%80%E1%85%B3%E1%84%82%E1%85%A6%E1%84%89%E1%85%B2%E1%86%B7.jpg"
          });
 
          await photo.save();
