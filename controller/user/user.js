@@ -111,6 +111,28 @@ const updatePicture = async (req, res) => {
     })
 }
 
+const resetPW = async (req, res) => {
+    console.log(req.body);
+    const {newPW, confirmPW, phoneNumber} = req.body;
+    const finduser = await User.findOne({phone : phoneNumber});
+    if(!finduser){
+        return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+    }
+    else{
+        if(newPW == confirmPW){
+            await User.updateOne(
+                {phone : req.body.phoneNumber},
+                {$set: { password: req.body.newPassword }}
+            )
+            res.status(200).json({ message: "비밀번호 변경 성공" });
+        }
+        else{
+            return res.status(401).json({ message: "비밀번호가 일치하지 않습니다." });
+        }
+    }
+    
+}
+
 const updatePassword = async (req, res) => { 
     try {
         // 사용자 찾기
@@ -380,4 +402,4 @@ const getMyFollowing = async (req, res) => {
     }
 };
 
-export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode, getMyFollowing, signupVerifyCode, findPhoneNumber }
+export {loginUser, registerUser, updateUser, deleteUser, updatePicture, updatePassword, updateNickname, updateIntro, sendVerificationCode, verifyCode, getMyFollowing, signupVerifyCode, findPhoneNumber, resetPW }

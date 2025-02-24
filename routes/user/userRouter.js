@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteUser, loginUser, registerUser, updateUser, updatePicture, updatePassword, sendVerificationCode, verifyCode, updateNickname, updateIntro, getMyFollowing, signupVerifyCode, findPhoneNumber } from '../../controller/user/user.js';
+import { deleteUser, loginUser, registerUser, updateUser, updatePicture, updatePassword, sendVerificationCode, verifyCode, updateNickname, updateIntro, getMyFollowing, signupVerifyCode, findPhoneNumber, resetPW } from '../../controller/user/user.js';
 
 const userRouter = express.Router();
 
@@ -11,6 +11,7 @@ userRouter.post("/picture", updatePicture);
 userRouter.post("/change-password", updatePassword);
 userRouter.post("/change-nickname", updateNickname);
 userRouter.post("/change-intro", updateIntro);
+userRouter.post("/reset-password", resetPW);
 // 문자 인증 관련 라우트
 userRouter.post("/send-verification", sendVerificationCode);
 userRouter.post("/verify-code", verifyCode);
