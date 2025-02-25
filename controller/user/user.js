@@ -36,12 +36,14 @@ const loginUser = async (req, res) => {
 const registerUser = async (req, res) => {
     // console.log(req.body)
     const { nickname, email, password, phone } = req.body;
-    const findUser = await User.findOne({email : email}).lean();
+    const findUser = await User.findOne({
+        $or: [{ email: email }, { phone: phone }]
+    }).lean();
 
     if(findUser){
         return res.status(409).json({
             registerSuccess : false,
-            message : "이미 존재하는 이메일입니다."
+            message : "이미 존재하는 계정입니다."
         })
     }else{
         let register = {
