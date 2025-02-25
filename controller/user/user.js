@@ -8,31 +8,37 @@ import bcrypt from "bcrypt";
 
 
 const loginUser = async (req, res) => {
+    console.log("로그인 정보 : ", req.body)
+    // const { email, password } = req.body;
+    const findUser = await User.findOne({ email : req.body.email }).lean();
     // console.log(req.body)
-    const findUser = await User.findOne({email : req.body.email}).lean()
-
     if(!findUser){
         return res.status(401).json({
             loginSuccess : false,
             message : "존재하지 않는 아이디 또는 비밀번호입니다."
         })
-    }else{
-        // 비밀번호 검증
-        const passwordMatch = req.body.password === findUser.password;
-        if(!passwordMatch){
+    } 
+    try{
+        const email = req.body.email;
+        const password = req.body.password;
+        const passwordMatch = await bcrypt.compare(password, findUser.password);
+        if(!passwordMatch) {
             return res.status(401).json({
-                loginSuccess : false,
-                message : "존재하지 않는 아이디 또는 비밀번호입니다."
-            })
+                loginSuccess: false,
+                message: "존재하지 않는 아이디 또는 비밀번호입니다."
+            });
         }
-        // 민감한 정보를 제거
-        const { password, ...user} = findUser;
-        //console.log(user)
+        const { password:_, ...user } = findUser;
+
         return res.status(200).json({
             user,
-            loginSuccess : true,
-            message : "로그인이 완료되었습니다"
-        })
+            loginSuccess: true,
+            message: "로그인이 완료되었습니다."
+        });
+    }
+    catch(error){
+        console.error(error);
+        return res.status(500).json({message : "서버 오류 발생"})
     }
 }
 
@@ -119,24 +125,54 @@ const updatePicture = async (req, res) => {
 const resetPW = async (req, res) => {
     console.log(req.body);
     const {newPW, confirmPW, phoneNumber} = req.body;
-    const finduser = await User.findOne({phone : phoneNumber});
-    if(!finduser){
-        return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
-    }
-    else{
-        if(newPW == confirmPW){
-            await User.updateOne(
-                {phone : req.body.phoneNumber},
-                {$set: { password: req.body.newPassword }}
-            )
-            res.status(200).json({ message: "비밀번호 변경 성공" });
+    try{
+        const findUser = await User.findOne({phone : phoneNumber});
+        if(!findUser){
+            return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
         }
-        else{
-            return res.status(401).json({ message: "비밀번호가 일치하지 않습니다." });
+        if(newPW !== confirmPW){
+            return res.status(404).json({message : "비밀번호가 일치하지 않습니다."});
         }
+        const passwordMatch = await bcrypt.compare(newPW, findUser.password);
+        if(passwordMatch) {
+            return res.status(401).json({
+                message: "현재 비밀번호와 일치합니다."
+            });
+        }
+
+        const saltRounds = 10;
+
+        bcrypt.hash(newPW, saltRounds, async (err, hashPassword) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "비밀번호 해싱 오류 발생" });
+            }
+
+            console.log("해시된 비밀번호:", hashPassword);
+
+            try {
+                const result = await User.updateOne(
+                    { phone: phoneNumber },
+                    { $set: { password: hashPassword } }
+                );
+
+                if (result.modifiedCount === 0) {
+                    return res.status(500).json({ message: "비밀번호 변경 실패" });
+                }
+
+                return res.status(200).json({ message: "비밀번호 변경 성공" });
+            } 
+            catch (error) {
+                console.error(error);
+                return res.status(500).json({ message: "서버 오류 발생" });
+            }
+        })
     }
-    
-}
+    catch(error){
+        console.error(error);
+        return res.status(500).json({ message: "서버 오류 발생" });
+    }
+};
 
 const updatePassword = async (req, res) => { 
     try {
